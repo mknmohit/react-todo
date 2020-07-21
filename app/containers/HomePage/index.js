@@ -20,12 +20,17 @@ export default function HomePage() {
     setIsModalOpen(false);
   };
 
+  const handleSaveTodo = todoData => {
+    console.log(todoData)
+  }
+
   return (
     <div>
       <AddTodoBtn handleModalOpen={handleModalOpen} />
       <TaskModal
         isModalOpen={isModalOpen}
         handleModalClose={handleModalClose}
+        onSave={handleSaveTodo}
       />
     </div>
   );

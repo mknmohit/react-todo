@@ -16,13 +16,14 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function TaskModal({ isModalOpen, handleModalClose }) {
+function TaskModal({ isModalOpen, handleModalClose, onSave }) {
   const [todoData, setTodoData] = useState({
     summary: '',
     description: '',
     dueDate: '',
     priority: 'None',
     createdOn: '',
+    status: 'pending',
   });
 
   const handleChange = event => {
@@ -34,7 +35,16 @@ function TaskModal({ isModalOpen, handleModalClose }) {
       [name]: value,
     });
   };
-  console.log('todoData', todoData)
+
+  const handleSaveTodo = () => {
+    const data = {
+      ...todoData,
+      createdOn: new Date().getTime(),
+    }
+    onSave(data)
+    handleModalClose()
+  }
+
   const getDefaultTimestamp = () => {
     const timestamp = new Date();
     const day = timestamp.getDate();
@@ -99,7 +109,7 @@ function TaskModal({ isModalOpen, handleModalClose }) {
         <Button onClick={handleModalClose} variant="outlined" color="primary">
           Cancel
         </Button>
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" onClick={handleSaveTodo}>
           Save
         </Button>
       </DialogActions>
@@ -110,6 +120,7 @@ function TaskModal({ isModalOpen, handleModalClose }) {
 TaskModal.propTypes = {
   isModalOpen: PropTypes.bool,
   handleModalClose: PropTypes.func,
+  onSave: PropTypes.func,
 };
 
 export default TaskModal;
