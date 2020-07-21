@@ -10,21 +10,23 @@ import AddTodoBtn from 'components/AddTodoBtn';
 import TaskModal from 'components/TaskModal';
 
 export default function HomePage() {
+  const [isModalOpen, setIsModalOpen] = useState(true);
 
-  const [isModalOpen, setIsModalOpen] = useState(true)
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+  };
 
-  const handleModalOpen = toggle => {
-    setIsModalOpen(true)
-  }
-
-  const handleModalClose = toggle => {
-    setIsModalOpen(false)
-  }
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <div>
       <AddTodoBtn handleModalOpen={handleModalOpen} />
-      <TaskModal isModalOpen={isModalOpen} handleModalClose={handleModalClose} />
+      <TaskModal
+        isModalOpen={isModalOpen}
+        handleModalClose={handleModalClose}
+      />
     </div>
   );
 }

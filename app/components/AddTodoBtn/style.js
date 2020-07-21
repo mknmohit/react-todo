@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
 const Root = styled.div`
-  position:fixed;
+  position: fixed;
   right: 40px;
   bottom: 40px;
   z-index: 2;

@@ -12,14 +12,13 @@ import { Fab, Tooltip } from '@material-ui/core';
 import Styled from './style';
 
 function AddTodoBtn({ handleModalOpen }) {
-
   return (
     <Styled.Root>
       <Tooltip title="Create New Todo">
-      <Fab color="primary" onClick={handleModalOpen}>
-        <AddIcon />
-      </Fab>
-    </Tooltip>
+        <Fab color="primary" onClick={handleModalOpen}>
+          <AddIcon />
+        </Fab>
+      </Tooltip>
     </Styled.Root>
   );
 }

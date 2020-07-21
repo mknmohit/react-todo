@@ -13,7 +13,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
-import { createMuiTheme, ThemeProvider, StylesProvider } from '@material-ui/core/styles';
+import {
+  createMuiTheme,
+  ThemeProvider,
+  StylesProvider,
+} from '@material-ui/core/styles';
 import { blue } from '@material-ui/core/colors';
 import history from 'utils/history';
 import 'sanitize.css/sanitize.css';
