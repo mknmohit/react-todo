@@ -5,14 +5,26 @@
  *
  */
 
-import React from 'react';
-import { FormattedMessage } from 'react-intl';
-import messages from './messages';
+import React, { useState } from 'react';
+import AddTodoBtn from 'components/AddTodoBtn';
+import TaskModal from 'components/TaskModal';
 
 export default function HomePage() {
+
+  const [isModalOpen, setIsModalOpen] = useState(true)
+
+  const handleModalOpen = toggle => {
+    setIsModalOpen(true)
+  }
+
+  const handleModalClose = toggle => {
+    setIsModalOpen(false)
+  }
+
   return (
-    <h1>
-      <FormattedMessage {...messages.header} />
-    </h1>
+    <div>
+      <AddTodoBtn handleModalOpen={handleModalOpen} />
+      <TaskModal isModalOpen={isModalOpen} handleModalClose={handleModalClose} />
+    </div>
   );
 }
