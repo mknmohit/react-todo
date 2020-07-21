@@ -13,7 +13,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { createMuiTheme, ThemeProvider, StylesProvider } from '@material-ui/core/styles';
 import { blue } from '@material-ui/core/colors';
 import history from 'utils/history';
 import 'sanitize.css/sanitize.css';
@@ -52,11 +52,13 @@ const render = messages => {
   ReactDOM.render(
     <Provider store={store}>
       <LanguageProvider messages={messages}>
-        <ThemeProvider theme={theme}>
-          <ConnectedRouter history={history}>
-            <App />
-          </ConnectedRouter>
-        </ThemeProvider>
+        <StylesProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <ConnectedRouter history={history}>
+              <App />
+            </ConnectedRouter>
+          </ThemeProvider>
+        </StylesProvider>
       </LanguageProvider>
     </Provider>,
     MOUNT_NODE,
