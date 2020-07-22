@@ -1,31 +1,22 @@
-/**
- *
- * Button
- *
- */
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { map } from 'lodash';
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
-import getTimestamp from 'utils/timestamp';
-import { PRIORITY as getPriority } from 'containers/App/constants';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip } from '@material-ui/core';
+import RenderTableRow from 'components/RenderTableRow';
 
 // import Styled from './style';
 
-function TodoTable({ todoData }) {
+function TodoTable({ todoData, handldeTodoActions }) {
 
   const renderTableData = () => {
-    return map(todoData, item => {
-      const { title, dueDate, priority, createdAt, currentState} = item
+    return map(todoData, items => {
+      const { createdAt } = items
       return (
-        <TableRow key={createdAt}>
-          <TableCell component="th" scope="row">{title}</TableCell>
-          <TableCell align="right">{getPriority[priority]}</TableCell>
-          <TableCell align="right">{getTimestamp(createdAt)}</TableCell>
-          <TableCell align="right">{dueDate}</TableCell>
-          <TableCell align="right">action</TableCell>
-        </TableRow>
+        <RenderTableRow
+          key={createdAt}
+          todoList={items}
+          handldeTodoActions={handldeTodoActions}
+        />
       )
     })
   }
@@ -37,10 +28,10 @@ function TodoTable({ todoData }) {
         <TableHead>
           <TableRow>
             <TableCell>Summary</TableCell>
-            <TableCell align="right">Priority</TableCell>
-            <TableCell align="right">Created On</TableCell>
-            <TableCell align="right">Due By</TableCell>
-            <TableCell align="right">Action</TableCell>
+            <TableCell align="center">Priority</TableCell>
+            <TableCell align="center">Created On</TableCell>
+            <TableCell align="center">Due By</TableCell>
+            <TableCell align="center">Action</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -53,6 +44,7 @@ function TodoTable({ todoData }) {
 
 TodoTable.propTypes = {
   todoData: PropTypes.array,
+  handldeTodoActions: PropTypes.func,
 };
 
 export default TodoTable;

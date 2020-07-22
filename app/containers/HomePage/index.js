@@ -19,6 +19,7 @@ export default function HomePage() {
     priority: 0,
     createdAt: 1595432275142,
     currentState: 'pending',
+    isReadOnly: true,
   }]);
 
 
@@ -38,6 +39,24 @@ export default function HomePage() {
     ])
   }
 
+  const handldeTodoActions = params => {
+    const { action, id } = params
+
+    switch(action) {
+      case 'edit': {
+
+      }
+      
+      case 'complete': {
+
+      }
+
+      case 'delte': {
+        
+      }
+    }
+  }
+
   return (
     <div>
       <AddTodoBtn handleModalOpen={handleModalOpen} />
@@ -46,7 +65,7 @@ export default function HomePage() {
         handleModalClose={handleModalClose}
         onSave={handleSaveTodo}
       />
-      <TodoTabs todoData={todoData} />
+      <TodoTabs todoData={todoData} handldeTodoActions={handldeTodoActions} />
     </div>
   );
 }

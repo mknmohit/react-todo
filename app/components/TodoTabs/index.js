@@ -1,9 +1,3 @@
-/**
- *
- * Button
- *
- */
-
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Paper, Tabs, Tab } from '@material-ui/core';
@@ -13,7 +7,7 @@ import CompletedTodo from 'components/CompletedTodo';
 
 // import Styled from './style';
 
-function TodoTabs({ todoData }) {
+function TodoTabs({ todoData, handldeTodoActions }) {
   const [activeTab, setActiveTab] = useState(0)
 
   const handleTabChange = (event, tabValue) => {
@@ -29,15 +23,16 @@ function TodoTabs({ todoData }) {
           <Tab label="Completed" value={2} />
         </Tabs>
       </Paper>
-      <AllTodo index={0} activeTab={activeTab} todoData={todoData} />
-      <PendingTodo index={1} activeTab={activeTab} todoData={todoData} />
-      <CompletedTodo index={2} activeTab={activeTab} todoData={todoData} />
+      <AllTodo index={0} activeTab={activeTab} todoData={todoData} handldeTodoActions={handldeTodoActions} />
+      <PendingTodo index={1} activeTab={activeTab} todoData={todoData} handldeTodoActions={handldeTodoActions} />
+      <CompletedTodo index={2} activeTab={activeTab} todoData={todoData} handldeTodoActions={handldeTodoActions} />
     </div>
   );
 }
 
 TodoTabs.propTypes = {
   todoData: PropTypes.array,
+  handldeTodoActions: PropTypes.func,
 };
 
 export default TodoTabs;

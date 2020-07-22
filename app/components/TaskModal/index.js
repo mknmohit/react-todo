@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Button,
-  Dialog,
+  Dialog,   
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
+  InputLabel,
   MenuItem,
   Select,
   Slide,
@@ -25,6 +27,7 @@ function TaskModal({ isModalOpen, handleModalClose, onSave }) {
     priority: 0,
     createdAt: '',
     currentState: 'pending',
+    isReadOnly: false,
   });
 
   const handleChange = event => {
@@ -40,6 +43,7 @@ function TaskModal({ isModalOpen, handleModalClose, onSave }) {
   const handleSaveTodo = () => {
     const data = {
       ...todoData,
+      isReadOnly: true,
       createdAt: new Date().getTime(),
     }
     onSave(data)
@@ -98,19 +102,25 @@ function TaskModal({ isModalOpen, handleModalClose, onSave }) {
             shrink: true,
           }}
         />
-        <Select
-          name="priority"
-          value={todoData.priority}
-          onChange={handleChange}
-          displayEmpty
-        >
-          <MenuItem value={0}>
-            <em>None</em>
-          </MenuItem>
-          <MenuItem value={1}>Low</MenuItem>
-          <MenuItem value={2}>Medium</MenuItem>
-          <MenuItem value={3}>High</MenuItem>
-        </Select>
+        <FormControl>
+          <InputLabel shrink id="priority-dropdown-label">
+            Priority
+          </InputLabel>
+          <Select
+            labelId="priority-dropdown-label"
+            name="priority"
+            value={todoData.priority}
+            onChange={handleChange}
+            displayEmpty
+          >
+            <MenuItem value={0}>
+              <em>None</em>
+            </MenuItem>
+            <MenuItem value={1}>Low</MenuItem>
+            <MenuItem value={2}>Medium</MenuItem>
+            <MenuItem value={3}>High</MenuItem>
+          </Select>
+        </FormControl>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleModalClose} variant="outlined" color="primary">
