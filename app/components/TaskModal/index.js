@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   Button,
@@ -14,21 +14,36 @@ import {
   TextField,
 } from '@material-ui/core';
 import getTimestamp from 'utils/timestamp'
+import { isEmpty, find } from 'lodash';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function TaskModal({ isModalOpen, handleModalClose, onSave }) {
-  const [todoData, setTodoData] = useState({
-    title: '',
-    description: '',
-    dueDate: '',
-    priority: 0,
-    createdAt: '',
-    currentState: 'pending',
-    isReadOnly: false,
-  });
+const initialTodoData = {
+  title: '',
+  description: '',
+  dueDate: '',
+  priority: 0,
+  createdAt: '',
+  currentState: 'pending',
+  isReadOnly: false,
+}
+
+function TaskModal({ isModalOpen, handleModalClose, onSave, onUpdate, onDelete, allTodos, action, viewId}) {
+  const [todoData, setTodoData] = useState(initialTodoData);
+
+  useEffect(() => {
+
+    if(isModalOpen && action !== 'add') {
+      const todoList = find(allTodos, { createdAt: viewId })
+      const result = {
+        ...todoList,
+        isReadOnly: action === 'edit' ? false : true,
+      }
+      setTodoData(result)
+    }
+  }, [isModalOpen])
 
   const handleChange = event => {
     const {
@@ -40,6 +55,10 @@ function TaskModal({ isModalOpen, handleModalClose, onSave }) {
     });
   };
 
+  const setInitialTodoData = () => {
+    setTodoData(initialTodoData)
+  }
+
   const handleSaveTodo = () => {
     const data = {
       ...todoData,
@@ -47,22 +66,74 @@ function TaskModal({ isModalOpen, handleModalClose, onSave }) {
       createdAt: new Date().getTime(),
     }
     onSave(data)
+    setInitialTodoData()
     handleModalClose()
   }
 
-  const getDefaultTimestamp = () => {
-    const timestamp = new Date();
-    const day = timestamp.getDate();
-    const month = timestamp.getMonth();
-    const year = timestamp.getFullYear();
-    return `${year}-${month < 10 ? `0${month}` : month}-${
-      day < 10 ? `0${day}` : day
-    }`;
-  };
+  const handleUpdateTodo = () => {
+    const data = {
+      ...todoData,
+      isReadOnly: true,
+    }
+    onUpdate(data)
+    setInitialTodoData()
+    handleModalClose()
+  }
+
+  const handleDeleteTodo = () => {
+    onDelete()
+    handleModalClose()
+  }
+
+  const onCloseModal = () => {
+    setInitialTodoData()
+    handleModalClose()
+  }
+
+  console.log('todoData', todoData)
+
+  const renderSaveBtn = () => {
+    switch(action) {
+      case 'add': {
+        return (
+          <Button variant="contained" color="primary" onClick={handleSaveTodo}>
+            Save
+          </Button>
+        )
+      }
+
+      case 'edit': {
+        return (
+          <Button variant="contained" color="primary" onClick={handleUpdateTodo}>
+            Update
+          </Button>
+        )
+      }
+
+      case 'delete': {
+        return (
+          <Button variant="contained" color="secondary" onClick={handleDeleteTodo}>
+            Yes
+          </Button>
+        )
+      }
+    }
+  }
+
+  const renderConfirmationBtn = () => {
+    return (
+      <div>
+        <Button onClick={onCloseModal} variant="outlined" color="primary">
+          {action === 'delete' ? 'No' : 'Cancel' }
+        </Button>
+        {renderSaveBtn()}
+      </div>
+    )
+  }
 
   return (
     <Dialog
-      onClose={handleModalClose}
+      onClose={onCloseModal}
       open={isModalOpen}
       TransitionComponent={Transition}
     >
@@ -77,6 +148,9 @@ function TaskModal({ isModalOpen, handleModalClose, onSave }) {
           inputProps={{
             maxLength: 140,
           }}
+          InputProps={{
+            readOnly: todoData.isReadOnly,
+          }}
           fullWidth
         />
         <TextField
@@ -89,6 +163,9 @@ function TaskModal({ isModalOpen, handleModalClose, onSave }) {
           inputProps={{
             maxLength: 500,
           }}
+          InputProps={{
+            readOnly: todoData.isReadOnly,
+          }}
           multiline
           fullWidth
         />
@@ -96,10 +173,13 @@ function TaskModal({ isModalOpen, handleModalClose, onSave }) {
           label="Due Date"
           type="date"
           name="dueDate"
-          defaultValue={getTimestamp()}
+          defaultValue={getTimestamp(todoData.dueDate)}
           onChange={handleChange}
           InputLabelProps={{
             shrink: true,
+          }}
+          InputProps={{
+            readOnly: todoData.isReadOnly,
           }}
         />
         <FormControl>
@@ -111,6 +191,7 @@ function TaskModal({ isModalOpen, handleModalClose, onSave }) {
             name="priority"
             value={todoData.priority}
             onChange={handleChange}
+            inputProps={{ readOnly: todoData.isReadOnly }}
             displayEmpty
           >
             <MenuItem value={0}>
@@ -123,12 +204,8 @@ function TaskModal({ isModalOpen, handleModalClose, onSave }) {
         </FormControl>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleModalClose} variant="outlined" color="primary">
-          Cancel
-        </Button>
-        <Button variant="contained" color="primary" onClick={handleSaveTodo}>
-          Save
-        </Button>
+        {action === 'delete' && 'Do you want to delete it?'}
+        {renderConfirmationBtn()}
       </DialogActions>
     </Dialog>
   );
@@ -138,6 +215,14 @@ TaskModal.propTypes = {
   isModalOpen: PropTypes.bool,
   handleModalClose: PropTypes.func,
   onSave: PropTypes.func,
+  onUpdate: PropTypes.func,
+  onDelete: PropTypes.func,
+  allTodos: PropTypes.array,
+  action: PropTypes.string,
+  viewId: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]),
 };
 
 export default TaskModal;

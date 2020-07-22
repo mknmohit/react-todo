@@ -21,7 +21,6 @@ function TodoTable({ todoData, handldeTodoActions }) {
     })
   }
 
-  console.log('table', todoData)
   return (
     <TableContainer component={Paper}>
       <Table>

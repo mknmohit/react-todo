@@ -6,7 +6,6 @@ import TodoTable from 'components/TodoTable';
 
 function AllTodo({ index, activeTab, todoData, handldeTodoActions }) {
 
-  console.log('all', todoData)
   return (
     <div role="tabpanel" hidden={index !== activeTab}>
       <TodoTable todoData={todoData} handldeTodoActions={handldeTodoActions} />
