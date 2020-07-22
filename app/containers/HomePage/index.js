@@ -6,7 +6,7 @@
  */
 
 import React, { useState } from 'react';
-import { map } from 'lodash';
+import { map, reject } from 'lodash';
 import AddTodoBtn from 'components/AddTodoBtn';
 import TaskModal from 'components/TaskModal';
 import TodoTabs from 'components/TodoTabs';
@@ -62,14 +62,25 @@ export default function HomePage() {
     setViewId(id)
 
     if(actionType === 'complete') {
-
+      const result = map(todoData, item => {
+        const { createdAt } = item
+        if(createdAt === id) {
+          return {
+            ...item,
+            currentState: 'completed'
+          }
+        }
+        return item
+      })
+      setTodoData(result)
     } else {
       handleModalOpen()
     }
   }
   
   const handleDeleteTodo = () => {
-
+    const result = reject(todoData, { createdAt: viewId })
+    setTodoData(result)
   }
 
   console.log('todoData', todoData)
