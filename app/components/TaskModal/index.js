@@ -113,7 +113,7 @@ function TaskModal({ isModalOpen, handleModalClose, onSave, onUpdate, onDelete, 
       case 'delete': {
         return (
           <Button variant="contained" color="secondary" onClick={handleDeleteTodo}>
-            Yes
+            Yes, Delete
           </Button>
         )
       }
@@ -131,13 +131,29 @@ function TaskModal({ isModalOpen, handleModalClose, onSave, onUpdate, onDelete, 
     )
   }
 
+  const renderDialogTitle = () => {
+    switch(action) {
+      case 'add': {
+        return `Create New Todo`   
+      }
+
+      case 'edit': {
+        return `Edit Task`
+      }
+
+      case 'delete': {
+        return `Do you want to delete this task?`
+      }
+    }
+  }
+
   return (
     <Dialog
       onClose={onCloseModal}
       open={isModalOpen}
       TransitionComponent={Transition}
     >
-      <DialogTitle>Create New Todo</DialogTitle>
+      <DialogTitle>{renderDialogTitle()}</DialogTitle>
       <DialogContent dividers>
         <TextField
           label="Summary"
@@ -204,7 +220,6 @@ function TaskModal({ isModalOpen, handleModalClose, onSave, onUpdate, onDelete, 
         </FormControl>
       </DialogContent>
       <DialogActions>
-        {action === 'delete' && 'Do you want to delete it?'}
         {renderConfirmationBtn()}
       </DialogActions>
     </Dialog>
