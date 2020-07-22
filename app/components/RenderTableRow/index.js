@@ -7,10 +7,10 @@ import CheckIcon from '@material-ui/icons/AssignmentTurnedInOutlined';
 import { PRIORITY as getPriority } from 'containers/App/constants';
 import getTimestamp from 'utils/timestamp';
 
-// import Styled from './style';
+import Styled from './style';
 
 function RenderTableRow({ todoList, handldeTodoActions }) {
-  const { title, dueDate, priority, createdAt, currentState} = todoList
+  const { title, dueDate, priority, createdAt, isStrikeOutText } = todoList
 
   const handleEdit = () => {
     const params = {
@@ -59,11 +59,11 @@ function RenderTableRow({ todoList, handldeTodoActions }) {
   }
 
   return (
-    <TableRow key={createdAt}>
-      <TableCell component="th" scope="row">{title}</TableCell>
-      <TableCell align="center">{getPriority[priority]}</TableCell>
-      <TableCell align="center">{getTimestamp(createdAt)}</TableCell>
-      <TableCell align="center">{dueDate}</TableCell>
+    <TableRow>
+      <Styled.Cell strikeout={isStrikeOutText} component="th" scope="row">{title}</Styled.Cell>
+      <Styled.Cell strikeout={isStrikeOutText} align="center">{getPriority[priority]}</Styled.Cell>
+      <Styled.Cell strikeout={isStrikeOutText} align="center">{getTimestamp(createdAt)}</Styled.Cell>
+      <Styled.Cell strikeout={isStrikeOutText} align="center">{dueDate}</Styled.Cell>
       <TableCell align="center">{renderActions()}</TableCell>
     </TableRow>
   );

@@ -73,6 +73,7 @@ function TaskModal({ isModalOpen, handleModalClose, onSave, onUpdate, onDelete, 
   const handleUpdateTodo = () => {
     const data = {
       ...todoData,
+      currentState: 'pending',
       isReadOnly: true,
     }
     onUpdate(data)
