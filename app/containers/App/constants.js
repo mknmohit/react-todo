@@ -8,3 +8,10 @@
  * Follow this format:
  * export const YOUR_ACTION_CONSTANT = 'yourproject/YourContainer/YOUR_ACTION_CONSTANT';
  */
+
+export const PRIORITY = {
+  0: 'None',
+  1: 'Low',
+  2: 'Medium',
+  4: 'High',
+};

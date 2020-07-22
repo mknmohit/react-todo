@@ -22,7 +22,7 @@ function TaskModal({ isModalOpen, handleModalClose, onSave }) {
     title: '',
     description: '',
     dueDate: '',
-    priority: 'None',
+    priority: 0,
     createdAt: '',
     currentState: 'pending',
   });
@@ -104,12 +104,12 @@ function TaskModal({ isModalOpen, handleModalClose, onSave }) {
           onChange={handleChange}
           displayEmpty
         >
-          <MenuItem value="None">
+          <MenuItem value={0}>
             <em>None</em>
           </MenuItem>
-          <MenuItem value="Low">Low</MenuItem>
-          <MenuItem value="Medium">Medium</MenuItem>
-          <MenuItem value="High">High</MenuItem>
+          <MenuItem value={1}>Low</MenuItem>
+          <MenuItem value={2}>Medium</MenuItem>
+          <MenuItem value={3}>High</MenuItem>
         </Select>
       </DialogContent>
       <DialogActions>

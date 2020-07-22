@@ -8,7 +8,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { map } from 'lodash';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
-import getTimestamp from 'utils/timestamp'
+import getTimestamp from 'utils/timestamp';
+import { PRIORITY as getPriority } from 'containers/App/constants';
 
 // import Styled from './style';
 
@@ -20,7 +21,7 @@ function TodoTable({ todoData }) {
       return (
         <TableRow key={createdAt}>
           <TableCell component="th" scope="row">{title}</TableCell>
-          <TableCell align="right">{priority}</TableCell>
+          <TableCell align="right">{getPriority[priority]}</TableCell>
           <TableCell align="right">{getTimestamp(createdAt)}</TableCell>
           <TableCell align="right">{dueDate}</TableCell>
           <TableCell align="right">action</TableCell>

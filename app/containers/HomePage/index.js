@@ -16,7 +16,7 @@ export default function HomePage() {
     title: 'Sample todo tile',
     description: 'sample of todo description',
     dueDate: '2020-06-24',
-    priority: 'None',
+    priority: 0,
     createdAt: 1595432275142,
     currentState: 'pending',
   }]);
