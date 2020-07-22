@@ -8,9 +8,12 @@
 import React, { useState } from 'react';
 import AddTodoBtn from 'components/AddTodoBtn';
 import TaskModal from 'components/TaskModal';
+import TodoTabs from 'components/TodoTabs';
 
 export default function HomePage() {
   const [isModalOpen, setIsModalOpen] = useState(true);
+  const [todoData, setTodoData] = useState([]);
+
 
   const handleModalOpen = () => {
     setIsModalOpen(true);
@@ -20,8 +23,12 @@ export default function HomePage() {
     setIsModalOpen(false);
   };
 
-  const handleSaveTodo = todoData => {
-    console.log(todoData)
+  const handleSaveTodo = data => {
+    console.log(data)
+    setTodoData([
+      ...todoData,
+      data
+    ])
   }
 
   return (
@@ -32,6 +39,7 @@ export default function HomePage() {
         handleModalClose={handleModalClose}
         onSave={handleSaveTodo}
       />
+      <TodoTabs todoData={todoData} />
     </div>
   );
 }
