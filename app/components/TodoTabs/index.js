@@ -7,11 +7,14 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Paper, Tabs, Tab } from '@material-ui/core';
+import AllTodo from 'components/AllTodo';
+import PendingTodo from 'components/PendingTodo';
+import CompletedTodo from 'components/CompletedTodo';
 
 // import Styled from './style';
 
 function TodoTabs({ todoData }) {
-  const [activeTab, setActiveTab] = useState(1)
+  const [activeTab, setActiveTab] = useState(0)
 
   const handleTabChange = (event, tabValue) => {
     setActiveTab(tabValue)
@@ -21,21 +24,14 @@ function TodoTabs({ todoData }) {
     <div>
       <Paper>
         <Tabs value={activeTab} onChange={handleTabChange} indicatorColor="primary" textColor="primary">
-          <Tab label="All" value={1} />
-          <Tab label="Pending" value={2} />
-          <Tab label="Completed" value={3} />
+          <Tab label="All" value={0} />
+          <Tab label="Pending" value={1} />
+          <Tab label="Completed" value={2} />
         </Tabs>
       </Paper>
-      <div role="tabpanel" value={1} hidden={1 !== activeTab}>
-        Item One
-      </div>
-      <div role="tabpanel" value={2} hidden={2 !== activeTab}>
-        Item Two
-      </div>
-      <div role="tabpanel" value={3} hidden={3 !== activeTab}>
-        Item Three
-      </div>
-     
+      <AllTodo index={0} activeTab={activeTab} todoData={todoData} />
+      <PendingTodo index={1} activeTab={activeTab} todoData={todoData} />
+      <CompletedTodo index={2} activeTab={activeTab} todoData={todoData} />
     </div>
   );
 }

@@ -12,7 +12,14 @@ import TodoTabs from 'components/TodoTabs';
 
 export default function HomePage() {
   const [isModalOpen, setIsModalOpen] = useState(true);
-  const [todoData, setTodoData] = useState([]);
+  const [todoData, setTodoData] = useState([{
+    title: 'Sample todo tile',
+    description: 'sample of todo description',
+    dueDate: '2020-06-24',
+    priority: 'None',
+    createdAt: 1595432275142,
+    currentState: 'pending',
+  }]);
 
 
   const handleModalOpen = () => {
