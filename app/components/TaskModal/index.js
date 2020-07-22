@@ -11,6 +11,7 @@ import {
   Slide,
   TextField,
 } from '@material-ui/core';
+import getTimestamp from 'utils/timestamp'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -18,12 +19,12 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 function TaskModal({ isModalOpen, handleModalClose, onSave }) {
   const [todoData, setTodoData] = useState({
-    summary: '',
+    title: '',
     description: '',
     dueDate: '',
     priority: 'None',
-    createdOn: '',
-    status: 'pending',
+    createdAt: '',
+    currentState: 'pending',
   });
 
   const handleChange = event => {
@@ -39,7 +40,7 @@ function TaskModal({ isModalOpen, handleModalClose, onSave }) {
   const handleSaveTodo = () => {
     const data = {
       ...todoData,
-      createdOn: new Date().getTime(),
+      createdAt: new Date().getTime(),
     }
     onSave(data)
     handleModalClose()
@@ -66,9 +67,12 @@ function TaskModal({ isModalOpen, handleModalClose, onSave }) {
         <TextField
           label="Summary"
           variant="outlined"
-          name="summary"
-          value={todoData.summary}
+          name="title"
+          value={todoData.title}
           onChange={handleChange}
+          inputProps={{
+            maxLength: 140,
+          }}
           fullWidth
         />
         <TextField
@@ -78,6 +82,9 @@ function TaskModal({ isModalOpen, handleModalClose, onSave }) {
           value={todoData.description}
           onChange={handleChange}
           rows={10}
+          inputProps={{
+            maxLength: 500,
+          }}
           multiline
           fullWidth
         />
@@ -85,7 +92,7 @@ function TaskModal({ isModalOpen, handleModalClose, onSave }) {
           label="Due Date"
           type="date"
           name="dueDate"
-          defaultValue={getDefaultTimestamp()}
+          defaultValue={getTimestamp()}
           onChange={handleChange}
           InputLabelProps={{
             shrink: true,
