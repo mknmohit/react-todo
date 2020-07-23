@@ -4,13 +4,15 @@ import { IconButton, TableCell, TableRow, Tooltip } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import CheckIcon from '@material-ui/icons/AssignmentTurnedInOutlined';
+import UndoIcon from '@material-ui/icons/Restore';
+
 import { PRIORITY as getPriority } from 'containers/App/constants';
 import getTimestamp from 'utils/timestamp';
 
 import Styled from './style';
 
 function RenderTableRow({ todoList, handldeTodoActions }) {
-  const { title, dueDate, priority, createdAt, isStrikeOutText } = todoList
+  const { title, dueDate, priority, createdAt, isStrikeOutText, currentState } = todoList
 
   const handleEdit = () => {
     const params = {
@@ -36,6 +38,33 @@ function RenderTableRow({ todoList, handldeTodoActions }) {
     handldeTodoActions(params)
   }
 
+  const handleUndoComplete = () => {
+    const params = {
+      action: 'undoComplete',
+      id: createdAt,
+    }
+    handldeTodoActions(params)
+  }
+
+  const renderCheckUncheck = () => {
+    if (currentState === 'completed' || currentState === 'completing') {
+      return (
+        <Tooltip title="Re-Open">
+          <IconButton onClick={handleUndoComplete}>
+            <UndoIcon />
+          </IconButton>
+        </Tooltip>
+      )
+    }
+    return (
+      <Tooltip title="Mark Done">
+        <IconButton onClick={handleMarkDone}>
+          <CheckIcon />
+        </IconButton>
+      </Tooltip>
+    )
+  }
+
   const renderActions = () => {
     return (
       <div>
@@ -44,11 +73,7 @@ function RenderTableRow({ todoList, handldeTodoActions }) {
             <EditIcon />
           </IconButton>
         </Tooltip>
-        <Tooltip title="Mark Done">
-          <IconButton onClick={handleMarkDone}>
-            <CheckIcon />
-          </IconButton>
-        </Tooltip>
+        {renderCheckUncheck()}
         <Tooltip title="Delete">
           <IconButton onClick={handleDelete}>
             <DeleteIcon />

@@ -8,7 +8,12 @@ import TodoTable from 'components/TodoTable';
 function PendingTodo({ index, activeTab, todoData, handldeTodoActions }) {
 
   const getPendigTodos = () => {
-   return filter(todoData, { currentState: 'pending'}) 
+   return filter(todoData, item => {
+      const { currentState } = item
+      if(currentState ==='pending' || currentState ==='completing') {
+        return item
+      }
+    }) 
   }
 
   return (

@@ -73,6 +73,18 @@ export default function HomePage() {
         return item
       })
       setTodoData(result)
+    } else if(actionType === 'undoComplete') {
+      const result = map(todoData, item => {
+        const { createdAt } = item
+        if(createdAt === id) {
+          return {
+            ...item,
+            currentState: 'pending'
+          }
+        }
+        return item
+      })
+      setTodoData(result)
     } else {
       handleModalOpen()
     }
