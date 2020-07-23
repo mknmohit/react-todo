@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Paper } from '@material-ui/core';
 
 const VisuallyHidden = styled.span`
   border: 0;
@@ -12,6 +13,14 @@ const VisuallyHidden = styled.span`
   width: 1px;
 `;
 
+const NoRecord = styled(Paper)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 250px;
+`;
+
 export default {
   VisuallyHidden,
+  NoRecord,
 };

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { map } from 'lodash';
+import { map, isEmpty } from 'lodash';
 import {
   Paper,
   Table,
@@ -10,6 +10,7 @@ import {
   TableHead,
   TableRow,
   TableSortLabel,
+  Typography,
 } from '@material-ui/core';
 import RenderTableRow from 'components/RenderTableRow';
 import { stableSort, getComparator } from 'utils/sorting';
@@ -75,6 +76,13 @@ function TodoTable({ todoData, handldeTodoActions }) {
       );
     });
 
+  if (isEmpty(todoData)) {
+    return (
+      <Styled.NoRecord>
+        <Typography color="textSecondary">No todos to display</Typography>
+      </Styled.NoRecord>
+    )
+  }
   return (
     <TableContainer component={Paper}>
       <Table>

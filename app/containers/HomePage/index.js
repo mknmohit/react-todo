@@ -11,6 +11,7 @@ import AddTodoBtn from 'components/AddTodoBtn';
 import TaskModal from 'components/TaskModal';
 import TodoTabs from 'components/TodoTabs';
 import Search from 'components/Search';
+import Styled from './style';
 
 export default function HomePage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -124,28 +125,30 @@ export default function HomePage() {
 
   console.log('todoData', todoData);
   return (
-    <div>
-      <Search
-        searchKeyword={searchKeyword}
-        onSearchChange={handleSearchChange}
-        onClearSearch={onClearSearch}
-      />
-      <AddTodoBtn handleAddTodo={handleAddTodo} />
-      <TaskModal
-        isModalOpen={isModalOpen}
-        handleModalClose={handleModalClose}
-        onSave={handleSaveTodo}
-        onUpdate={handleUpdateTodo}
-        onDelete={handleDeleteTodo}
-        allTodos={todoData}
-        action={action}
-        viewId={viewId}
-      />
-      <TodoTabs
-        todoData={todoData}
-        handldeTodoActions={handldeTodoActions}
-        searchKeyword={searchKeyword}
-      />
-    </div>
+    <Styled.Root>
+      <Styled.Container>
+        <Search
+          searchKeyword={searchKeyword}
+          onSearchChange={handleSearchChange}
+          onClearSearch={onClearSearch}
+        />
+        <AddTodoBtn handleAddTodo={handleAddTodo} />
+        <TaskModal
+          isModalOpen={isModalOpen}
+          handleModalClose={handleModalClose}
+          onSave={handleSaveTodo}
+          onUpdate={handleUpdateTodo}
+          onDelete={handleDeleteTodo}
+          allTodos={todoData}
+          action={action}
+          viewId={viewId}
+        />
+        <TodoTabs
+          todoData={todoData}
+          handldeTodoActions={handldeTodoActions}
+          searchKeyword={searchKeyword}
+        />
+      </Styled.Container>
+    </Styled.Root>
   );
 }
