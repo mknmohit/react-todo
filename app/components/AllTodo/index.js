@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { filter, isEmpty, map } from 'lodash';
 import TodoTable from 'components/TodoTable';
-import searching from 'utils/searching'
+import searching from 'utils/searching';
 
 // import Styled from './style';
 
@@ -34,6 +34,7 @@ function AllTodo({ index, activeTab, todoData, handldeTodoActions, searchKeyword
       return generateTodo(item)
     })
   }
+
   return (
     <div role="tabpanel" hidden={index !== activeTab}>
       <TodoTable
