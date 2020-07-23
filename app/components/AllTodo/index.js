@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { filter, isEmpty, map, replace } from 'lodash';
+import { filter, isEmpty, map } from 'lodash';
 import TodoTable from 'components/TodoTable';
+import searching from 'utils/searching'
 
 // import Styled from './style';
 
@@ -21,12 +22,9 @@ function AllTodo({ index, activeTab, todoData, handldeTodoActions, searchKeyword
   const getAlltodos = () => {
     if (!isEmpty(searchKeyword)) {
       return filter(todoData, item => {
-        const { title, description } = item
-        const string = replace(searchKeyword, /[' ']/g, '|')
-        const pattern = new RegExp(string, 'i')
-        const searchTitle = title.search(pattern)
-        const searchDescription = description.search(pattern)
-        if(searchTitle !== -1 || searchDescription !== -1) {
+        const isSearchingMatched = searching(item, searchKeyword)
+
+        if(isSearchingMatched) {
           return generateTodo(item)
         }
         return null
