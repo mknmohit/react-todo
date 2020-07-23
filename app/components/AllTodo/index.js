@@ -21,7 +21,7 @@ function AllTodo({ index, activeTab, todoData, handldeTodoActions, searchKeyword
 
   const getAlltodos = () => {
     if (!isEmpty(searchKeyword)) {
-      return filter(todoData, item => {
+      const data = map(todoData, item => {
         const isSearchingMatched = searching(item, searchKeyword)
 
         if(isSearchingMatched) {
@@ -29,6 +29,7 @@ function AllTodo({ index, activeTab, todoData, handldeTodoActions, searchKeyword
         }
         return null
       })
+      return filter(data, item => item)
     }
     return map(todoData, item => {
       return generateTodo(item)
