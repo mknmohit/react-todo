@@ -12,7 +12,7 @@ import {
   TableSortLabel,
 } from '@material-ui/core';
 import RenderTableRow from 'components/RenderTableRow';
-import { stableSort, getComparator } from 'utils/sorting'; 
+import { stableSort, getComparator } from 'utils/sorting';
 import Styled from './style';
 
 function TodoTable({ todoData, handldeTodoActions }) {
@@ -27,15 +27,16 @@ function TodoTable({ todoData, handldeTodoActions }) {
   ];
 
   const handleRequestSort = event => {
-    const { target: { id }} = event
+    const {
+      target: { id },
+    } = event;
     const isAsc = orderBy === id && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(id);
   };
 
   const renderTableData = () => {
-    const sortedData = stableSort(todoData, getComparator(order, orderBy))
-    console.log('sortedData', sortedData)
+    const sortedData = stableSort(todoData, getComparator(order, orderBy));
     return map(sortedData, items => {
       const { createdAt } = items;
       return (
@@ -46,15 +47,15 @@ function TodoTable({ todoData, handldeTodoActions }) {
         />
       );
     });
-  }
+  };
 
-  const renderHeadCells = () => {
-    return map(headCells, headCell => {
-      const { id, label} = headCell
+  const renderHeadCells = () =>
+    map(headCells, headCell => {
+      const { id, label } = headCell;
       return (
         <TableCell
           key={id}
-          align='center'
+          align="center"
           sortDirection={orderBy === id ? order : false}
         >
           <TableSortLabel
@@ -71,9 +72,8 @@ function TodoTable({ todoData, handldeTodoActions }) {
             ) : null}
           </TableSortLabel>
         </TableCell>
-      )
-    })
-  }
+      );
+    });
 
   return (
     <TableContainer component={Paper}>
@@ -81,7 +81,7 @@ function TodoTable({ todoData, handldeTodoActions }) {
         <TableHead>
           <TableRow>
             {renderHeadCells()}
-            <TableCell align='center'>Actions</TableCell>
+            <TableCell align="center">Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>{renderTableData()}</TableBody>

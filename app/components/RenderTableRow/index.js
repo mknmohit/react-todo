@@ -59,7 +59,7 @@ function RenderTableRow({ todoList, handldeTodoActions }) {
       id: createdAt,
     };
     handldeTodoActions(params);
-  }
+  };
 
   const renderCheckUncheck = () => {
     if (currentState === 'completed' || currentState === 'completing') {
@@ -98,16 +98,33 @@ function RenderTableRow({ todoList, handldeTodoActions }) {
 
   return (
     <TableRow>
-      <Styled.Cell strikeout={isStrikeOutText} component="th" scope="row" onClick={handleViewTodo}>
+      <Styled.Cell
+        strikeout={isStrikeOutText}
+        component="th"
+        scope="row"
+        onClick={handleViewTodo}
+      >
         {title}
       </Styled.Cell>
-      <Styled.Cell strikeout={isStrikeOutText} align="center" onClick={handleViewTodo}>
+      <Styled.Cell
+        strikeout={isStrikeOutText}
+        align="center"
+        onClick={handleViewTodo}
+      >
         {getPriority[priority]}
       </Styled.Cell>
-      <Styled.Cell strikeout={isStrikeOutText} align="center" onClick={handleViewTodo}>
+      <Styled.Cell
+        strikeout={isStrikeOutText}
+        align="center"
+        onClick={handleViewTodo}
+      >
         {getTimestamp(createdAt)}
       </Styled.Cell>
-      <Styled.Cell strikeout={isStrikeOutText} align="center" onClick={handleViewTodo}>
+      <Styled.Cell
+        strikeout={isStrikeOutText}
+        align="center"
+        onClick={handleViewTodo}
+      >
         {dueDate}
       </Styled.Cell>
       <TableCell align="center">{renderActions()}</TableCell>

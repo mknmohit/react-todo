@@ -12,6 +12,7 @@ function PendingTodo({ index, activeTab, todoData, handldeTodoActions }) {
       if (currentState === 'pending' || currentState === 'completing') {
         return item;
       }
+      return null
     });
 
   return (

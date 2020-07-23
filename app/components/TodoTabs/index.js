@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { AppBar, Paper, Tabs, Tab } from '@material-ui/core';
+import { AppBar, Tabs, Tab } from '@material-ui/core';
 import AllTodo from 'components/AllTodo';
 import PendingTodo from 'components/PendingTodo';
 import CompletedTodo from 'components/CompletedTodo';

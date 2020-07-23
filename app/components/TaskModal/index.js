@@ -13,7 +13,7 @@ import {
   Slide,
   TextField,
   Tooltip,
-  IconButton
+  IconButton,
 } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import getTimestamp from 'utils/timestamp';
@@ -105,8 +105,8 @@ function TaskModal({
     setTodoData({
       ...todoData,
       isReadOnly: false,
-    })
-  }
+    });
+  };
 
   console.log('todoData', todoData);
 
@@ -144,8 +144,8 @@ function TaskModal({
         );
       }
       case 'view': {
-        const { isReadOnly } = todoData
-        if(!isReadOnly) {
+        const { isReadOnly } = todoData;
+        if (!isReadOnly) {
           return (
             <Button
               variant="contained"
@@ -156,7 +156,11 @@ function TaskModal({
             </Button>
           );
         }
-        return null
+        return null;
+      }
+
+      default: {
+        return null;
       }
     }
   };
@@ -171,18 +175,18 @@ function TaskModal({
   );
 
   const renderEditBtn = () => {
-    const { isReadOnly } = todoData
-    if(isReadOnly) {
+    const { isReadOnly } = todoData;
+    if (isReadOnly) {
       return (
         <Tooltip title="Edit">
           <IconButton onClick={handleEdit}>
             <EditIcon />
           </IconButton>
         </Tooltip>
-      )
+      );
     }
-    return null
-  }
+    return null;
+  };
 
   const renderDialogTitle = () => {
     switch (action) {
@@ -200,17 +204,15 @@ function TaskModal({
 
       case 'view': {
         return (
-        <div>
-          <span>
-            Task Details
-          </span>
-          {renderEditBtn()}
-        </div>
-        )
+          <div>
+            <span>Task Details</span>
+            {renderEditBtn()}
+          </div>
+        );
       }
 
       default: {
-        return null
+        return null;
       }
     }
   };
@@ -231,8 +233,6 @@ function TaskModal({
           onChange={handleChange}
           inputProps={{
             maxLength: 140,
-          }}
-          InputProps={{
             readOnly: todoData.isReadOnly,
           }}
           fullWidth
@@ -246,8 +246,6 @@ function TaskModal({
           rows={10}
           inputProps={{
             maxLength: 500,
-          }}
-          InputProps={{
             readOnly: todoData.isReadOnly,
           }}
           multiline
