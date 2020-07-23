@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { map } from 'lodash';
 import {
@@ -9,13 +9,23 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Tooltip,
+  TableSortLabel,
 } from '@material-ui/core';
 import RenderTableRow from 'components/RenderTableRow';
-
-// import Styled from './style';
+import Styled from './style';
 
 function TodoTable({ todoData, handldeTodoActions }) {
+  const [order, setOrder] = useState('asc');
+  const [orderBy, setOrderBy] = useState('createdAt');
+
+  const headCells = [
+    { id: 'summary', label: 'Summary' },
+    { id: 'priority', label: 'Priority' },
+    { id: 'createdAt', label: 'Created On' },
+    { id: 'dueDate', label: 'Due By' },
+    { id: 'action', label: 'Action' },
+  ];
+
   const renderTableData = () =>
     map(todoData, items => {
       const { createdAt } = items;
@@ -28,16 +38,46 @@ function TodoTable({ todoData, handldeTodoActions }) {
       );
     });
 
+  const handleRequestSort = event => {
+    const { target: { id }} = event
+    const isAsc = orderBy === id && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(id);
+  };
+
+  const renderHeadCells = () => {
+    return map(headCells, headCell => {
+      const { id, label} = headCell
+      return (
+        <TableCell
+          key={id}
+          align='center'
+          sortDirection={orderBy === id ? order : false}
+        >
+          <TableSortLabel
+            active={orderBy === id}
+            direction={orderBy === id ? order : 'asc'}
+            id={id}
+            onClick={handleRequestSort}
+          >
+            {label}
+            {orderBy === id ? (
+              <Styled.VisuallyHidden>
+                {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+              </Styled.VisuallyHidden>
+            ) : null}
+          </TableSortLabel>
+        </TableCell>
+      )
+    })
+  }
+
   return (
     <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Summary</TableCell>
-            <TableCell align="center">Priority</TableCell>
-            <TableCell align="center">Created On</TableCell>
-            <TableCell align="center">Due By</TableCell>
-            <TableCell align="center">Action</TableCell>
+            {renderHeadCells()}
           </TableRow>
         </TableHead>
         <TableBody>{renderTableData()}</TableBody>
