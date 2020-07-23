@@ -10,11 +10,13 @@ import { map, reject } from 'lodash';
 import AddTodoBtn from 'components/AddTodoBtn';
 import TaskModal from 'components/TaskModal';
 import TodoTabs from 'components/TodoTabs';
+import Search from 'components/Search';
 
 export default function HomePage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [action, setAction] = useState('add');
   const [viewId, setViewId] = useState();
+  const [searchKeyword, setSearchKeyword] = useState('');
   const [todoData, setTodoData] = useState([
     {
       title: 'Sample todo tile',
@@ -112,9 +114,18 @@ export default function HomePage() {
     setTodoData(result);
   };
 
+  const handleSearchChange = value => {
+    setSearchKeyword(value)
+  }
+
+  const onClearSearch = () => {
+    setSearchKeyword('')
+  }
+
   console.log('todoData', todoData);
   return (
     <div>
+      <Search searchKeyword={searchKeyword} onSearchChange={handleSearchChange} onClearSearch={onClearSearch} />
       <AddTodoBtn handleAddTodo={handleAddTodo} />
       <TaskModal
         isModalOpen={isModalOpen}
@@ -126,7 +137,7 @@ export default function HomePage() {
         action={action}
         viewId={viewId}
       />
-      <TodoTabs todoData={todoData} handldeTodoActions={handldeTodoActions} />
+      <TodoTabs todoData={todoData} handldeTodoActions={handldeTodoActions} searchKeyword={searchKeywords} />
     </div>
   );
 }

@@ -7,7 +7,7 @@ import CompletedTodo from 'components/CompletedTodo';
 
 // import Styled from './style';
 
-function TodoTabs({ todoData, handldeTodoActions }) {
+function TodoTabs({ todoData, handldeTodoActions, searchKeyword }) {
   const [activeTab, setActiveTab] = useState(0);
 
   const handleTabChange = (event, tabValue) => {
@@ -33,18 +33,21 @@ function TodoTabs({ todoData, handldeTodoActions }) {
         activeTab={activeTab}
         todoData={todoData}
         handldeTodoActions={handldeTodoActions}
+        searchKeyword={searchKeyword}
       />
       <PendingTodo
         index={1}
         activeTab={activeTab}
         todoData={todoData}
         handldeTodoActions={handldeTodoActions}
+        searchKeyword={searchKeyword}
       />
       <CompletedTodo
         index={2}
         activeTab={activeTab}
         todoData={todoData}
         handldeTodoActions={handldeTodoActions}
+        searchKeyword={searchKeyword}
       />
     </div>
   );
@@ -53,6 +56,7 @@ function TodoTabs({ todoData, handldeTodoActions }) {
 TodoTabs.propTypes = {
   todoData: PropTypes.array,
   handldeTodoActions: PropTypes.func,
+  searchKeyword: PropTypes.string,
 };
 
 export default TodoTabs;

@@ -33,6 +33,7 @@ AllTodo.propTypes = {
   activeTab: PropTypes.number,
   todoData: PropTypes.array,
   handldeTodoActions: PropTypes.func,
+  searchKeyword: PropTypes.string,
 };
 
 export default AllTodo;
