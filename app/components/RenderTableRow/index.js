@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { IconButton, TableCell, TableRow, Tooltip } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import CheckIcon from '@material-ui/icons/AssignmentTurnedInOutlined';
-import UndoIcon from '@material-ui/icons/Restore';
 
 import { PRIORITY as getPriority } from 'containers/App/constants';
 import getTimestamp from 'utils/timestamp';
@@ -66,7 +64,7 @@ function RenderTableRow({ todoList, handldeTodoActions }) {
       return (
         <Tooltip title="Re-Open">
           <IconButton onClick={handleUndoComplete}>
-            <UndoIcon />
+            <Styled.UndoIcon />
           </IconButton>
         </Tooltip>
       );
@@ -74,7 +72,7 @@ function RenderTableRow({ todoList, handldeTodoActions }) {
     return (
       <Tooltip title="Mark Done">
         <IconButton onClick={handleMarkDone}>
-          <CheckIcon />
+          <Styled.CheckIcon />
         </IconButton>
       </Tooltip>
     );
@@ -84,13 +82,13 @@ function RenderTableRow({ todoList, handldeTodoActions }) {
     <div>
       <Tooltip title="Edit">
         <IconButton onClick={handleEdit}>
-          <EditIcon />
+          <EditIcon color="primary" />
         </IconButton>
       </Tooltip>
       {renderCheckUncheck()}
       <Tooltip title="Delete">
         <IconButton onClick={handleDelete}>
-          <DeleteIcon />
+          <DeleteIcon color="error" />
         </IconButton>
       </Tooltip>
     </div>

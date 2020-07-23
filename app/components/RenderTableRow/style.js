@@ -1,5 +1,9 @@
 import styled, { css } from 'styled-components';
 import { TableCell } from '@material-ui/core';
+import TickIcon from '@material-ui/icons/AssignmentTurnedInOutlined';
+import RestoreIcon from '@material-ui/icons/Restore';
+import { green, orange } from '@material-ui/core/colors';
+
 
 const Cell = styled(TableCell)`
   cursor: pointer;
@@ -12,6 +16,16 @@ const Cell = styled(TableCell)`
     `}
 `;
 
+const CheckIcon = styled(TickIcon)`
+  color: ${green[500]};
+`;
+
+const UndoIcon = styled(RestoreIcon)`
+  color: ${orange[500]};
+`;
+
 export default {
   Cell,
+  CheckIcon,
+  UndoIcon,
 };
