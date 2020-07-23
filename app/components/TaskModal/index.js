@@ -12,9 +12,12 @@ import {
   Select,
   Slide,
   TextField,
+  Tooltip,
+  IconButton
 } from '@material-ui/core';
+import EditIcon from '@material-ui/icons/Edit';
 import getTimestamp from 'utils/timestamp';
-import { isEmpty, find } from 'lodash';
+import { find } from 'lodash';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -98,6 +101,13 @@ function TaskModal({
     handleModalClose();
   };
 
+  const handleEdit = () => {
+    setTodoData({
+      ...todoData,
+      isReadOnly: false,
+    })
+  }
+
   console.log('todoData', todoData);
 
   const renderSaveBtn = () => {
@@ -133,6 +143,21 @@ function TaskModal({
           </Button>
         );
       }
+      case 'view': {
+        const { isReadOnly } = todoData
+        if(!isReadOnly) {
+          return (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleUpdateTodo}
+            >
+              Update
+            </Button>
+          );
+        }
+        return null
+      }
     }
   };
 
@@ -144,6 +169,20 @@ function TaskModal({
       {renderSaveBtn()}
     </div>
   );
+
+  const renderEditBtn = () => {
+    const { isReadOnly } = todoData
+    if(isReadOnly) {
+      return (
+        <Tooltip title="Edit">
+          <IconButton onClick={handleEdit}>
+            <EditIcon />
+          </IconButton>
+        </Tooltip>
+      )
+    }
+    return null
+  }
 
   const renderDialogTitle = () => {
     switch (action) {
@@ -157,6 +196,21 @@ function TaskModal({
 
       case 'delete': {
         return `Do you want to delete this task?`;
+      }
+
+      case 'view': {
+        return (
+        <div>
+          <span>
+            Task Details
+          </span>
+          {renderEditBtn()}
+        </div>
+        )
+      }
+
+      default: {
+        return null
       }
     }
   };
