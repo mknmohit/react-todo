@@ -18,6 +18,7 @@ import {
 import EditIcon from '@material-ui/icons/Edit';
 import getTimestamp from 'utils/timestamp';
 import { find } from 'lodash';
+import Styled from './style';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -108,8 +109,6 @@ function TaskModal({
     });
   };
 
-  console.log('todoData', todoData);
-
   const renderSaveBtn = () => {
     switch (action) {
       case 'add': {
@@ -166,12 +165,12 @@ function TaskModal({
   };
 
   const renderConfirmationBtn = () => (
-    <div>
-      <Button onClick={onCloseModal} variant="outlined" color="primary">
+    <Styled.ActionsWrapper>
+      <Styled.CancelBtn onClick={onCloseModal} variant="outlined" color="primary">
         {action === 'delete' ? 'No' : 'Cancel'}
-      </Button>
+      </Styled.CancelBtn>
       {renderSaveBtn()}
-    </div>
+    </Styled.ActionsWrapper>
   );
 
   const renderEditBtn = () => {
@@ -180,7 +179,7 @@ function TaskModal({
       return (
         <Tooltip title="Edit">
           <IconButton onClick={handleEdit}>
-            <EditIcon />
+            <EditIcon color="primary"/>
           </IconButton>
         </Tooltip>
       );
@@ -204,10 +203,10 @@ function TaskModal({
 
       case 'view': {
         return (
-          <div>
+          <Styled.AlignEnd>
             <span>Task Details</span>
             {renderEditBtn()}
-          </div>
+          </Styled.AlignEnd>
         );
       }
 
@@ -222,12 +221,12 @@ function TaskModal({
       onClose={onCloseModal}
       open={isModalOpen}
       TransitionComponent={Transition}
+      fullWidth
     >
       <DialogTitle>{renderDialogTitle()}</DialogTitle>
       <DialogContent dividers>
-        <TextField
+        <Styled.Field
           label="Summary"
-          variant="outlined"
           name="title"
           value={todoData.title}
           onChange={handleChange}
@@ -251,39 +250,41 @@ function TaskModal({
           multiline
           fullWidth
         />
-        <TextField
-          label="Due Date"
-          type="date"
-          name="dueDate"
-          defaultValue={getTimestamp(todoData.dueDate)}
-          onChange={handleChange}
-          InputLabelProps={{
-            shrink: true,
-          }}
-          InputProps={{
-            readOnly: todoData.isReadOnly,
-          }}
-        />
-        <FormControl>
-          <InputLabel shrink id="priority-dropdown-label">
-            Priority
-          </InputLabel>
-          <Select
-            labelId="priority-dropdown-label"
-            name="priority"
-            value={todoData.priority}
+        <Styled.Wrapper>
+          <TextField
+            label="Due Date"
+            type="date"
+            name="dueDate"
+            defaultValue={getTimestamp(todoData.dueDate)}
             onChange={handleChange}
-            inputProps={{ readOnly: todoData.isReadOnly }}
-            displayEmpty
-          >
-            <MenuItem value={0}>
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={1}>Low</MenuItem>
-            <MenuItem value={2}>Medium</MenuItem>
-            <MenuItem value={3}>High</MenuItem>
-          </Select>
-        </FormControl>
+            InputLabelProps={{
+              shrink: true,
+            }}
+            InputProps={{
+              readOnly: todoData.isReadOnly,
+            }}
+          />
+          <FormControl>
+            <InputLabel shrink id="priority-dropdown-label">
+              Priority
+            </InputLabel>
+            <Select
+              labelId="priority-dropdown-label"
+              name="priority"
+              value={todoData.priority}
+              onChange={handleChange}
+              inputProps={{ readOnly: todoData.isReadOnly }}
+              displayEmpty
+            >
+              <MenuItem value={0}>
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value={1}>Low</MenuItem>
+              <MenuItem value={2}>Medium</MenuItem>
+              <MenuItem value={3}>High</MenuItem>
+            </Select>
+          </FormControl>
+        </Styled.Wrapper>
       </DialogContent>
       <DialogActions>{renderConfirmationBtn()}</DialogActions>
     </Dialog>

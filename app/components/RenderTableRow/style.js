@@ -1,9 +1,14 @@
 import styled, { css } from 'styled-components';
-import { TableCell } from '@material-ui/core';
+import { TableCell, TableRow } from '@material-ui/core';
 import TickIcon from '@material-ui/icons/AssignmentTurnedInOutlined';
 import RestoreIcon from '@material-ui/icons/Restore';
 import { green, orange } from '@material-ui/core/colors';
 
+const Row = styled(TableRow)`
+  &:hover {
+    background-color: #f1f3f6;
+  }
+`;
 
 const Cell = styled(TableCell)`
   cursor: pointer;
@@ -25,6 +30,7 @@ const UndoIcon = styled(RestoreIcon)`
 `;
 
 export default {
+  Row,
   Cell,
   CheckIcon,
   UndoIcon,

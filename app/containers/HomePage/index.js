@@ -14,7 +14,7 @@ import Search from 'components/Search';
 import Styled from './style';
 
 export default function HomePage() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(true);
   const [action, setAction] = useState('add');
   const [viewId, setViewId] = useState();
   const [searchKeyword, setSearchKeyword] = useState('');

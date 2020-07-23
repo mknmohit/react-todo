@@ -95,7 +95,7 @@ function RenderTableRow({ todoList, handldeTodoActions }) {
   );
 
   return (
-    <TableRow>
+    <Styled.Row>
       <Styled.Cell
         strikeout={isStrikeOutText}
         component="th"
@@ -126,7 +126,7 @@ function RenderTableRow({ todoList, handldeTodoActions }) {
         {dueDate}
       </Styled.Cell>
       <TableCell align="center">{renderActions()}</TableCell>
-    </TableRow>
+    </Styled.Row>
   );
 }
 
