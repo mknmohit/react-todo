@@ -12,6 +12,7 @@ import {
   TableSortLabel,
 } from '@material-ui/core';
 import RenderTableRow from 'components/RenderTableRow';
+import { stableSort, getComparator } from 'utils/sorting'; 
 import Styled from './style';
 
 function TodoTable({ todoData, handldeTodoActions }) {
@@ -19,15 +20,23 @@ function TodoTable({ todoData, handldeTodoActions }) {
   const [orderBy, setOrderBy] = useState('createdAt');
 
   const headCells = [
-    { id: 'summary', label: 'Summary' },
+    { id: 'title', label: 'Summary' },
     { id: 'priority', label: 'Priority' },
     { id: 'createdAt', label: 'Created On' },
     { id: 'dueDate', label: 'Due By' },
-    { id: 'action', label: 'Action' },
   ];
 
-  const renderTableData = () =>
-    map(todoData, items => {
+  const handleRequestSort = event => {
+    const { target: { id }} = event
+    const isAsc = orderBy === id && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(id);
+  };
+
+  const renderTableData = () => {
+    const sortedData = stableSort(todoData, getComparator(order, orderBy))
+    console.log('sortedData', sortedData)
+    return map(sortedData, items => {
       const { createdAt } = items;
       return (
         <RenderTableRow
@@ -37,13 +46,7 @@ function TodoTable({ todoData, handldeTodoActions }) {
         />
       );
     });
-
-  const handleRequestSort = event => {
-    const { target: { id }} = event
-    const isAsc = orderBy === id && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(id);
-  };
+  }
 
   const renderHeadCells = () => {
     return map(headCells, headCell => {
@@ -78,6 +81,7 @@ function TodoTable({ todoData, handldeTodoActions }) {
         <TableHead>
           <TableRow>
             {renderHeadCells()}
+            <TableCell align='center'>Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>{renderTableData()}</TableBody>

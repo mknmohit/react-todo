@@ -12,7 +12,7 @@ import TaskModal from 'components/TaskModal';
 import TodoTabs from 'components/TodoTabs';
 
 export default function HomePage() {
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [action, setAction] = useState('add');
   const [viewId, setViewId] = useState();
   const [todoData, setTodoData] = useState([
@@ -22,6 +22,24 @@ export default function HomePage() {
       dueDate: '2020-06-24',
       priority: 0,
       createdAt: 1595432275142,
+      currentState: 'pending',
+      isReadOnly: true,
+    },
+    {
+      title: 'new todo',
+      description: 'sample of todo description',
+      dueDate: '2020-06-26',
+      priority: 1,
+      createdAt: 1595513899376,
+      currentState: 'pending',
+      isReadOnly: true,
+    },
+    {
+      title: 'Important task',
+      description: 'sample of todo description',
+      dueDate: '2020-06-26',
+      priority: 2,
+      createdAt: 1595514466131,
       currentState: 'pending',
       isReadOnly: true,
     },
