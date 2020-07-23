@@ -137,7 +137,7 @@ export default function HomePage() {
         action={action}
         viewId={viewId}
       />
-      <TodoTabs todoData={todoData} handldeTodoActions={handldeTodoActions} searchKeyword={searchKeywords} />
+      <TodoTabs todoData={todoData} handldeTodoActions={handldeTodoActions} searchKeyword={searchKeyword} />
     </div>
   );
 }
