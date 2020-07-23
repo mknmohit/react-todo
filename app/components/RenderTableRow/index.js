@@ -12,39 +12,46 @@ import getTimestamp from 'utils/timestamp';
 import Styled from './style';
 
 function RenderTableRow({ todoList, handldeTodoActions }) {
-  const { title, dueDate, priority, createdAt, isStrikeOutText, currentState } = todoList
+  const {
+    title,
+    dueDate,
+    priority,
+    createdAt,
+    isStrikeOutText,
+    currentState,
+  } = todoList;
 
   const handleEdit = () => {
     const params = {
       action: 'edit',
       id: createdAt,
-    }
-    handldeTodoActions(params)
-  }
+    };
+    handldeTodoActions(params);
+  };
 
   const handleMarkDone = () => {
     const params = {
       action: 'complete',
       id: createdAt,
-    }
-    handldeTodoActions(params)
-  }
+    };
+    handldeTodoActions(params);
+  };
 
   const handleDelete = () => {
     const params = {
       action: 'delete',
       id: createdAt,
-    }
-    handldeTodoActions(params)
-  }
+    };
+    handldeTodoActions(params);
+  };
 
   const handleUndoComplete = () => {
     const params = {
       action: 'undoComplete',
       id: createdAt,
-    }
-    handldeTodoActions(params)
-  }
+    };
+    handldeTodoActions(params);
+  };
 
   const renderCheckUncheck = () => {
     if (currentState === 'completed' || currentState === 'completing') {
@@ -54,7 +61,7 @@ function RenderTableRow({ todoList, handldeTodoActions }) {
             <UndoIcon />
           </IconButton>
         </Tooltip>
-      )
+      );
     }
     return (
       <Tooltip title="Mark Done">
@@ -62,33 +69,39 @@ function RenderTableRow({ todoList, handldeTodoActions }) {
           <CheckIcon />
         </IconButton>
       </Tooltip>
-    )
-  }
+    );
+  };
 
-  const renderActions = () => {
-    return (
-      <div>
-        <Tooltip title="Edit">
-          <IconButton onClick={handleEdit}>
-            <EditIcon />
-          </IconButton>
-        </Tooltip>
-        {renderCheckUncheck()}
-        <Tooltip title="Delete">
-          <IconButton onClick={handleDelete}>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      </div>
-    )
-  }
+  const renderActions = () => (
+    <div>
+      <Tooltip title="Edit">
+        <IconButton onClick={handleEdit}>
+          <EditIcon />
+        </IconButton>
+      </Tooltip>
+      {renderCheckUncheck()}
+      <Tooltip title="Delete">
+        <IconButton onClick={handleDelete}>
+          <DeleteIcon />
+        </IconButton>
+      </Tooltip>
+    </div>
+  );
 
   return (
     <TableRow>
-      <Styled.Cell strikeout={isStrikeOutText} component="th" scope="row">{title}</Styled.Cell>
-      <Styled.Cell strikeout={isStrikeOutText} align="center">{getPriority[priority]}</Styled.Cell>
-      <Styled.Cell strikeout={isStrikeOutText} align="center">{getTimestamp(createdAt)}</Styled.Cell>
-      <Styled.Cell strikeout={isStrikeOutText} align="center">{dueDate}</Styled.Cell>
+      <Styled.Cell strikeout={isStrikeOutText} component="th" scope="row">
+        {title}
+      </Styled.Cell>
+      <Styled.Cell strikeout={isStrikeOutText} align="center">
+        {getPriority[priority]}
+      </Styled.Cell>
+      <Styled.Cell strikeout={isStrikeOutText} align="center">
+        {getTimestamp(createdAt)}
+      </Styled.Cell>
+      <Styled.Cell strikeout={isStrikeOutText} align="center">
+        {dueDate}
+      </Styled.Cell>
       <TableCell align="center">{renderActions()}</TableCell>
     </TableRow>
   );

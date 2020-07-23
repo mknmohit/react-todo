@@ -6,23 +6,24 @@ import TodoTable from 'components/TodoTable';
 // import Styled from './style';
 
 function AllTodo({ index, activeTab, todoData, handldeTodoActions }) {
-
-  const getAlltodos = () => {
-    return map(todoData, item => {
-      const { currentState } = item
+  const getAlltodos = () =>
+    map(todoData, item => {
+      const { currentState } = item;
       if (currentState === 'completed' || currentState === 'completing') {
         return {
           ...item,
           isStrikeOutText: 1,
-        }
+        };
       }
-      return item
-    })
-  }
+      return item;
+    });
 
   return (
     <div role="tabpanel" hidden={index !== activeTab}>
-      <TodoTable todoData={getAlltodos()} handldeTodoActions={handldeTodoActions} />
+      <TodoTable
+        todoData={getAlltodos()}
+        handldeTodoActions={handldeTodoActions}
+      />
     </div>
   );
 }

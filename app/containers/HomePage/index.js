@@ -15,15 +15,17 @@ export default function HomePage() {
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [action, setAction] = useState('add');
   const [viewId, setViewId] = useState();
-  const [todoData, setTodoData] = useState([{
-    title: 'Sample todo tile',
-    description: 'sample of todo description',
-    dueDate: '2020-06-24',
-    priority: 0,
-    createdAt: 1595432275142,
-    currentState: 'pending',
-    isReadOnly: true,
-  }]);
+  const [todoData, setTodoData] = useState([
+    {
+      title: 'Sample todo tile',
+      description: 'sample of todo description',
+      dueDate: '2020-06-24',
+      priority: 0,
+      createdAt: 1595432275142,
+      currentState: 'pending',
+      isReadOnly: true,
+    },
+  ]);
 
   const handleModalOpen = () => {
     setIsModalOpen(true);
@@ -34,68 +36,65 @@ export default function HomePage() {
   };
 
   const handleAddTodo = () => {
-    setAction('add')
-    handleModalOpen()
-  }
+    setAction('add');
+    handleModalOpen();
+  };
 
   const handleSaveTodo = data => {
-    setTodoData([
-      ...todoData,
-      data
-    ])
-  }
+    setTodoData([...todoData, data]);
+  };
 
   const handleUpdateTodo = data => {
     const result = map(todoData, item => {
-      const { createdAt } = item
-      if(createdAt === viewId) {
-        return data
+      const { createdAt } = item;
+      if (createdAt === viewId) {
+        return data;
       }
-      return item
-    })
-    setTodoData(result)
-  }
+      return item;
+    });
+    setTodoData(result);
+  };
 
   const handldeTodoActions = params => {
-    const { action: actionType, id } = params
-    setAction(actionType)
-    setViewId(id)
+    const { action: actionType, id } = params;
+    setAction(actionType);
+    setViewId(id);
 
-    if(actionType === 'complete') {
+    if (actionType === 'complete') {
       const result = map(todoData, item => {
-        const { createdAt } = item
-        if(createdAt === id) {
+        const { createdAt } = item;
+        if (createdAt === id) {
           return {
             ...item,
-            currentState: 'completed'
-          }
+            currentState: 'completed',
+          };
         }
-        return item
-      })
-      setTodoData(result)
-    } else if(actionType === 'undoComplete') {
+        return item;
+      });
+      setTodoData(result);
+    } else if (actionType === 'undoComplete') {
       const result = map(todoData, item => {
-        const { createdAt } = item
-        if(createdAt === id) {
+        const { createdAt } = item;
+        if (createdAt === id) {
           return {
             ...item,
-            currentState: 'pending'
-          }
+            currentState: 'pending',
+          };
         }
-        return item
-      })
-      setTodoData(result)
+        return item;
+      });
+      setTodoData(result);
     } else {
-      handleModalOpen()
+      handleModalOpen();
     }
-  }
-  
-  const handleDeleteTodo = () => {
-    const result = reject(todoData, { createdAt: viewId })
-    setTodoData(result)
-  }
+  };
 
-  console.log('todoData', todoData)
+  const handleDeleteTodo = () => {
+    const result = reject(todoData, { createdAt: viewId });
+    setTodoData(result);
+  };
+
+  console.log('todoData', todoData);
   return (
     <div>
       <AddTodoBtn handleAddTodo={handleAddTodo} />

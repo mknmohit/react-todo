@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   Button,
-  Dialog,   
+  Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
@@ -13,7 +13,7 @@ import {
   Slide,
   TextField,
 } from '@material-ui/core';
-import getTimestamp from 'utils/timestamp'
+import getTimestamp from 'utils/timestamp';
 import { isEmpty, find } from 'lodash';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -28,22 +28,30 @@ const initialTodoData = {
   createdAt: '',
   currentState: 'pending',
   isReadOnly: false,
-}
+};
 
-function TaskModal({ isModalOpen, handleModalClose, onSave, onUpdate, onDelete, allTodos, action, viewId}) {
+function TaskModal({
+  isModalOpen,
+  handleModalClose,
+  onSave,
+  onUpdate,
+  onDelete,
+  allTodos,
+  action,
+  viewId,
+}) {
   const [todoData, setTodoData] = useState(initialTodoData);
 
   useEffect(() => {
-
-    if(isModalOpen && action !== 'add') {
-      const todoList = find(allTodos, { createdAt: viewId })
+    if (isModalOpen && action !== 'add') {
+      const todoList = find(allTodos, { createdAt: viewId });
       const result = {
         ...todoList,
-        isReadOnly: action === 'edit' ? false : true,
-      }
-      setTodoData(result)
+        isReadOnly: action !== 'edit',
+      };
+      setTodoData(result);
     }
-  }, [isModalOpen])
+  }, [isModalOpen]);
 
   const handleChange = event => {
     const {
@@ -56,96 +64,102 @@ function TaskModal({ isModalOpen, handleModalClose, onSave, onUpdate, onDelete, 
   };
 
   const setInitialTodoData = () => {
-    setTodoData(initialTodoData)
-  }
+    setTodoData(initialTodoData);
+  };
 
   const handleSaveTodo = () => {
     const data = {
       ...todoData,
       isReadOnly: true,
       createdAt: new Date().getTime(),
-    }
-    onSave(data)
-    setInitialTodoData()
-    handleModalClose()
-  }
+    };
+    onSave(data);
+    setInitialTodoData();
+    handleModalClose();
+  };
 
   const handleUpdateTodo = () => {
     const data = {
       ...todoData,
       isReadOnly: true,
-    }
-    onUpdate(data)
-    setInitialTodoData()
-    handleModalClose()
-  }
+    };
+    onUpdate(data);
+    setInitialTodoData();
+    handleModalClose();
+  };
 
   const handleDeleteTodo = () => {
-    onDelete()
-    handleModalClose()
-  }
+    onDelete();
+    handleModalClose();
+  };
 
   const onCloseModal = () => {
-    setInitialTodoData()
-    handleModalClose()
-  }
+    setInitialTodoData();
+    handleModalClose();
+  };
 
-  console.log('todoData', todoData)
+  console.log('todoData', todoData);
 
   const renderSaveBtn = () => {
-    switch(action) {
+    switch (action) {
       case 'add': {
         return (
           <Button variant="contained" color="primary" onClick={handleSaveTodo}>
             Save
           </Button>
-        )
+        );
       }
 
       case 'edit': {
         return (
-          <Button variant="contained" color="primary" onClick={handleUpdateTodo}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleUpdateTodo}
+          >
             Update
           </Button>
-        )
+        );
       }
 
       case 'delete': {
         return (
-          <Button variant="contained" color="secondary" onClick={handleDeleteTodo}>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={handleDeleteTodo}
+          >
             Yes, Delete
           </Button>
-        )
+        );
       }
     }
-  }
+  };
 
-  const renderConfirmationBtn = () => {
-    return (
-      <div>
-        <Button onClick={onCloseModal} variant="outlined" color="primary">
-          {action === 'delete' ? 'No' : 'Cancel' }
-        </Button>
-        {renderSaveBtn()}
-      </div>
-    )
-  }
+  const renderConfirmationBtn = () => (
+    <div>
+      <Button onClick={onCloseModal} variant="outlined" color="primary">
+        {action === 'delete' ? 'No' : 'Cancel'}
+      </Button>
+      {renderSaveBtn()}
+    </div>
+  );
 
   const renderDialogTitle = () => {
-    switch(action) {
+    switch (action) {
       case 'add': {
-        return `Create New Todo`   
+        return `Create New Todo`;
       }
 
       case 'edit': {
-        return `Edit Task`
+        return `Edit Task`;
       }
 
       case 'delete': {
-        return `Do you want to delete this task?`
+        return `Do you want to delete this task?`;
       }
     }
-  }
+  };
 
   return (
     <Dialog
@@ -219,9 +233,7 @@ function TaskModal({ isModalOpen, handleModalClose, onSave, onUpdate, onDelete, 
           </Select>
         </FormControl>
       </DialogContent>
-      <DialogActions>
-        {renderConfirmationBtn()}
-      </DialogActions>
+      <DialogActions>{renderConfirmationBtn()}</DialogActions>
     </Dialog>
   );
 }
@@ -234,10 +246,7 @@ TaskModal.propTypes = {
   onDelete: PropTypes.func,
   allTodos: PropTypes.array,
   action: PropTypes.string,
-  viewId: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]),
+  viewId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 export default TaskModal;

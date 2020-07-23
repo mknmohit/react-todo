@@ -6,19 +6,20 @@ import TodoTable from 'components/TodoTable';
 // import Styled from './style';
 
 function PendingTodo({ index, activeTab, todoData, handldeTodoActions }) {
-
-  const getPendigTodos = () => {
-   return filter(todoData, item => {
-      const { currentState } = item
-      if(currentState ==='pending' || currentState ==='completing') {
-        return item
+  const getPendigTodos = () =>
+    filter(todoData, item => {
+      const { currentState } = item;
+      if (currentState === 'pending' || currentState === 'completing') {
+        return item;
       }
-    }) 
-  }
+    });
 
   return (
     <div role="tabpanel" hidden={index !== activeTab}>
-      <TodoTable todoData={getPendigTodos()} handldeTodoActions={handldeTodoActions} />
+      <TodoTable
+        todoData={getPendigTodos()}
+        handldeTodoActions={handldeTodoActions}
+      />
     </div>
   );
 }

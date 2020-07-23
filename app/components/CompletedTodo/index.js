@@ -6,16 +6,17 @@ import TodoTable from 'components/TodoTable';
 // import Styled from './style';
 
 function CompletedTodo({ index, activeTab, todoData, handldeTodoActions }) {
+  const getCompletedTodos = () =>
+    filter(todoData, { currentState: 'completed' });
 
-  const getCompletedTodos = () => {
-    return filter(todoData, { currentState: 'completed'}) 
-   }
- 
-   return (
-     <div role="tabpanel" hidden={index !== activeTab}>
-       <TodoTable todoData={getCompletedTodos()} handldeTodoActions={handldeTodoActions} />
-     </div>
-   );
+  return (
+    <div role="tabpanel" hidden={index !== activeTab}>
+      <TodoTable
+        todoData={getCompletedTodos()}
+        handldeTodoActions={handldeTodoActions}
+      />
+    </div>
+  );
 }
 
 CompletedTodo.propTypes = {
