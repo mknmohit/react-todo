@@ -6,8 +6,13 @@ import searching from 'utils/searching';
 
 // import Styled from './style';
 
-function AllTodo({ index, activeTab, todoData, handldeTodoActions, searchKeyword }) {
-
+function AllTodo({
+  index,
+  activeTab,
+  todoData,
+  handldeTodoActions,
+  searchKeyword,
+}) {
   const generateTodo = todo => {
     const { currentState } = todo;
     if (currentState === 'completed' || currentState === 'completing') {
@@ -17,24 +22,22 @@ function AllTodo({ index, activeTab, todoData, handldeTodoActions, searchKeyword
       };
     }
     return todo;
-  }
+  };
 
   const getAlltodos = () => {
     if (!isEmpty(searchKeyword)) {
       const data = map(todoData, item => {
-        const isSearchingMatched = searching(item, searchKeyword)
+        const isSearchingMatched = searching(item, searchKeyword);
 
-        if(isSearchingMatched) {
-          return generateTodo(item)
+        if (isSearchingMatched) {
+          return generateTodo(item);
         }
-        return null
-      })
-      return filter(data, item => item)
+        return null;
+      });
+      return filter(data, item => item);
     }
-    return map(todoData, item => {
-      return generateTodo(item)
-    })
-  }
+    return map(todoData, item => generateTodo(item));
+  };
 
   return (
     <div role="tabpanel" hidden={index !== activeTab}>

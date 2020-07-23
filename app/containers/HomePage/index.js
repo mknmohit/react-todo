@@ -115,17 +115,21 @@ export default function HomePage() {
   };
 
   const handleSearchChange = value => {
-    setSearchKeyword(value)
-  }
+    setSearchKeyword(value);
+  };
 
   const onClearSearch = () => {
-    setSearchKeyword('')
-  }
+    setSearchKeyword('');
+  };
 
   console.log('todoData', todoData);
   return (
     <div>
-      <Search searchKeyword={searchKeyword} onSearchChange={handleSearchChange} onClearSearch={onClearSearch} />
+      <Search
+        searchKeyword={searchKeyword}
+        onSearchChange={handleSearchChange}
+        onClearSearch={onClearSearch}
+      />
       <AddTodoBtn handleAddTodo={handleAddTodo} />
       <TaskModal
         isModalOpen={isModalOpen}
@@ -137,7 +141,11 @@ export default function HomePage() {
         action={action}
         viewId={viewId}
       />
-      <TodoTabs todoData={todoData} handldeTodoActions={handldeTodoActions} searchKeyword={searchKeyword} />
+      <TodoTabs
+        todoData={todoData}
+        handldeTodoActions={handldeTodoActions}
+        searchKeyword={searchKeyword}
+      />
     </div>
   );
 }

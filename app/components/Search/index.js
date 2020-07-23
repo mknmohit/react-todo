@@ -9,32 +9,30 @@ function Search({ searchKeyword, onSearchChange, onClearSearch }) {
   const inputRef = useRef(null);
 
   const handleSearchChange = e => {
-    const { target: { value }} = e
-    onSearchChange(value)
-  }
+    const {
+      target: { value },
+    } = e;
+    onSearchChange(value);
+  };
 
   const onClear = () => {
-    onClearSearch()
-    inputRef.current.focus()
-  }
+    onClearSearch();
+    inputRef.current.focus();
+  };
 
-  const renderSearchIcon = () => {
-    return (
-      <InputAdornment position="start">
-        <SearchIcon color="action" />
-      </InputAdornment>
-    )
-  }
+  const renderSearchIcon = () => (
+    <InputAdornment position="start">
+      <SearchIcon color="action" />
+    </InputAdornment>
+  );
 
-  const renderCloseIcon = () => {
-    return (
-      <InputAdornment position="end">
-        <Styled.IconBtn keyword={searchKeyword} onClick={onClear}>
-          <CloseIcon fontSize="small" color="action" />
-        </Styled.IconBtn>
-      </InputAdornment>
-    )
-  }
+  const renderCloseIcon = () => (
+    <InputAdornment position="end">
+      <Styled.IconBtn keyword={searchKeyword} onClick={onClear}>
+        <CloseIcon fontSize="small" color="action" />
+      </Styled.IconBtn>
+    </InputAdornment>
+  );
 
   return (
     <TextField
@@ -47,7 +45,7 @@ function Search({ searchKeyword, onSearchChange, onClearSearch }) {
         endAdornment: renderCloseIcon(),
       }}
     />
-  )
+  );
 }
 
 Search.propTypes = {
