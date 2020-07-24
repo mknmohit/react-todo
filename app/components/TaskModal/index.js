@@ -46,7 +46,7 @@ function TaskModal({
 }) {
   const [todoData, setTodoData] = useState(initialTodoData);
   const [titleError, setTitleError] = useState('');
-  const [descriptionError, setDescriptionError] = useState('')
+  const [descriptionError, setDescriptionError] = useState('');
 
   useEffect(() => {
     if (isModalOpen && action !== 'add') {
@@ -60,9 +60,11 @@ function TaskModal({
   }, [isModalOpen]);
 
   const handleInputFocus = e => {
-    const { target: { name }} = e
-    return name === 'title' ? setTitleError('') : setDescriptionError('')
-  }
+    const {
+      target: { name },
+    } = e;
+    return name === 'title' ? setTitleError('') : setDescriptionError('');
+  };
 
   const handleChange = event => {
     const {
@@ -79,26 +81,26 @@ function TaskModal({
   };
 
   const handleValidation = () => {
-    const { title, description } = todoData
-    const trimedTitle = trim(title)
-    const trimedDescription = trim(description)
-    const isInvalidTitle = trimedTitle.length < 3
-    const isInvalidDescription = trimedDescription.length < 10
+    const { title, description } = todoData;
+    const trimedTitle = trim(title);
+    const trimedDescription = trim(description);
+    const isInvalidTitle = trimedTitle.length < 3;
+    const isInvalidDescription = trimedDescription.length < 10;
 
-    if(isInvalidTitle) {
-      setTitleError('min. 3 characters are required')
+    if (isInvalidTitle) {
+      setTitleError('min. 3 characters are required');
     }
 
-    if(isInvalidDescription) {
-      setDescriptionError('min. 10 characters are required')
+    if (isInvalidDescription) {
+      setDescriptionError('min. 10 characters are required');
     }
-    return !isInvalidTitle && !isInvalidDescription
-  }
+    return !isInvalidTitle && !isInvalidDescription;
+  };
 
   const handleSaveTodo = () => {
-    const isValidAllInputs = handleValidation()
+    const isValidAllInputs = handleValidation();
 
-    if(isValidAllInputs) {
+    if (isValidAllInputs) {
       const data = {
         ...todoData,
         isReadOnly: true,
@@ -111,9 +113,9 @@ function TaskModal({
   };
 
   const handleUpdateTodo = () => {
-    const isValidAllInputs = handleValidation()
+    const isValidAllInputs = handleValidation();
 
-    if(isValidAllInputs) {
+    if (isValidAllInputs) {
       const data = {
         ...todoData,
         isReadOnly: true,
@@ -200,7 +202,11 @@ function TaskModal({
 
   const renderConfirmationBtn = () => (
     <Styled.ActionsWrapper>
-      <Styled.CancelBtn onClick={onCloseModal} variant="outlined" color="primary">
+      <Styled.CancelBtn
+        onClick={onCloseModal}
+        variant="outlined"
+        color="primary"
+      >
         {action === 'delete' ? 'No' : 'Cancel'}
       </Styled.CancelBtn>
       {renderSaveBtn()}
@@ -213,7 +219,7 @@ function TaskModal({
       return (
         <Tooltip title="Edit">
           <IconButton onClick={handleEdit}>
-            <EditIcon color="primary"/>
+            <EditIcon color="primary" />
           </IconButton>
         </Tooltip>
       );

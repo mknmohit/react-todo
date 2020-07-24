@@ -22,17 +22,15 @@ export default function HomePage() {
   const [todoData, setTodoData] = useState([]);
 
   useEffect(() => {
-    const todos = JSON.parse(localStorage.getItem('todos'))
-    !isEmpty(todos) && setTodoData(todos)
-  }, [])
+    const todos = JSON.parse(localStorage.getItem('todos'));
+    if (!isEmpty(todos)) {
+      setTodoData(todos);
+    }
+  }, []);
 
   useEffect(() => {
     localStorage.setItem('todos', JSON.stringify(todoData));
-  }, [todoData])
-
-  const updateLocalStorage = () => {
-
-  }
+  }, [todoData]);
 
   const handleModalOpen = () => {
     setIsModalOpen(true);
@@ -113,9 +111,7 @@ export default function HomePage() {
     <Styled.Root>
       <Styled.Container>
         <Styled.Wrapper>
-          <Typography variant="h5">
-            ToDo App
-          </Typography>
+          <Typography variant="h5">ToDo App</Typography>
           <Search
             searchKeyword={searchKeyword}
             onSearchChange={handleSearchChange}

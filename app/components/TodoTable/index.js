@@ -81,10 +81,12 @@ function TodoTable({ todoData, handldeTodoActions, searchKeyword }) {
       <Styled.NoRecord>
         <Typography component="div" align="center">
           <Typography color="textSecondary">No todos to display</Typography>
-          {!isEmpty(searchKeyword) && <Typography color="textSecondary">Search again</Typography>}
+          {!isEmpty(searchKeyword) && (
+            <Typography color="textSecondary">Search again</Typography>
+          )}
         </Typography>
       </Styled.NoRecord>
-    )
+    );
   }
   return (
     <TableContainer component={Paper}>
