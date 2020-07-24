@@ -17,7 +17,7 @@ import {
 } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import getTimestamp from 'utils/timestamp';
-import { find } from 'lodash';
+import { find, isEmpty, trim } from 'lodash';
 import Styled from './style';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -45,6 +45,8 @@ function TaskModal({
   viewId,
 }) {
   const [todoData, setTodoData] = useState(initialTodoData);
+  const [titleError, setTitleError] = useState('');
+  const [descriptionError, setDescriptionError] = useState('')
 
   useEffect(() => {
     if (isModalOpen && action !== 'add') {
@@ -56,6 +58,11 @@ function TaskModal({
       setTodoData(result);
     }
   }, [isModalOpen]);
+
+  const handleInputFocus = e => {
+    const { target: { name }} = e
+    return name === 'title' ? setTitleError('') : setDescriptionError('')
+  }
 
   const handleChange = event => {
     const {
@@ -71,25 +78,50 @@ function TaskModal({
     setTodoData(initialTodoData);
   };
 
+  const handleValidation = () => {
+    const { title, description } = todoData
+    const trimedTitle = trim(title)
+    const trimedDescription = trim(description)
+    const isInvalidTitle = trimedTitle.length < 3
+    const isInvalidDescription = trimedDescription.length < 10
+
+    if(isInvalidTitle) {
+      setTitleError('min. 3 characters are required')
+    }
+
+    if(isInvalidDescription) {
+      setDescriptionError('min. 10 characters are required')
+    }
+    return !isInvalidTitle && !isInvalidDescription
+  }
+
   const handleSaveTodo = () => {
-    const data = {
-      ...todoData,
-      isReadOnly: true,
-      createdAt: new Date().getTime(),
-    };
-    onSave(data);
-    setInitialTodoData();
-    handleModalClose();
+    const isValidAllInputs = handleValidation()
+
+    if(isValidAllInputs) {
+      const data = {
+        ...todoData,
+        isReadOnly: true,
+        createdAt: new Date().getTime(),
+      };
+      onSave(data);
+      setInitialTodoData();
+      handleModalClose();
+    }
   };
 
   const handleUpdateTodo = () => {
-    const data = {
-      ...todoData,
-      isReadOnly: true,
-    };
-    onUpdate(data);
-    setInitialTodoData();
-    handleModalClose();
+    const isValidAllInputs = handleValidation()
+
+    if(isValidAllInputs) {
+      const data = {
+        ...todoData,
+        isReadOnly: true,
+      };
+      onUpdate(data);
+      setInitialTodoData();
+      handleModalClose();
+    }
   };
 
   const handleDeleteTodo = () => {
@@ -98,6 +130,8 @@ function TaskModal({
   };
 
   const onCloseModal = () => {
+    setTitleError('');
+    setDescriptionError('');
     setInitialTodoData();
     handleModalClose();
   };
@@ -229,11 +263,14 @@ function TaskModal({
           label="Summary"
           name="title"
           value={todoData.title}
+          onFocus={handleInputFocus}
           onChange={handleChange}
           inputProps={{
             maxLength: 140,
             readOnly: todoData.isReadOnly,
           }}
+          error={!isEmpty(titleError)}
+          helperText={titleError}
           fullWidth
         />
         <TextField
@@ -241,12 +278,15 @@ function TaskModal({
           variant="outlined"
           name="description"
           value={todoData.description}
+          onFocus={handleInputFocus}
           onChange={handleChange}
           rows={10}
           inputProps={{
             maxLength: 500,
             readOnly: todoData.isReadOnly,
           }}
+          error={!isEmpty(descriptionError)}
+          helperText={descriptionError}
           multiline
           fullWidth
         />

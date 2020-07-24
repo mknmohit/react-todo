@@ -44,6 +44,7 @@ function AllTodo({
       <TodoTable
         todoData={getAlltodos()}
         handldeTodoActions={handldeTodoActions}
+        searchKeyword={searchKeyword}
       />
     </div>
   );
