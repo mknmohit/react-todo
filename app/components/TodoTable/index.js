@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { map } from 'lodash';
+import { map, isEmpty } from 'lodash';
 import {
   Paper,
   Table,
@@ -9,15 +9,36 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Tooltip,
+  TableSortLabel,
+  Typography,
 } from '@material-ui/core';
 import RenderTableRow from 'components/RenderTableRow';
+import { stableSort, getComparator } from 'utils/sorting';
+import Styled from './style';
 
-// import Styled from './style';
+function TodoTable({ todoData, handldeTodoActions, searchKeyword }) {
+  const [order, setOrder] = useState('asc');
+  const [orderBy, setOrderBy] = useState('createdAt');
 
-function TodoTable({ todoData, handldeTodoActions }) {
-  const renderTableData = () =>
-    map(todoData, items => {
+  const headCells = [
+    { id: 'title', label: 'Summary' },
+    { id: 'priority', label: 'Priority' },
+    { id: 'createdAt', label: 'Created On' },
+    { id: 'dueDate', label: 'Due By' },
+  ];
+
+  const handleRequestSort = event => {
+    const {
+      target: { id },
+    } = event;
+    const isAsc = orderBy === id && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(id);
+  };
+
+  const renderTableData = () => {
+    const sortedData = stableSort(todoData, getComparator(order, orderBy));
+    return map(sortedData, items => {
       const { createdAt } = items;
       return (
         <RenderTableRow
@@ -27,17 +48,51 @@ function TodoTable({ todoData, handldeTodoActions }) {
         />
       );
     });
+  };
 
+  const renderHeadCells = () =>
+    map(headCells, headCell => {
+      const { id, label } = headCell;
+      return (
+        <TableCell
+          key={id}
+          align="center"
+          sortDirection={orderBy === id ? order : false}
+        >
+          <TableSortLabel
+            active={orderBy === id}
+            direction={orderBy === id ? order : 'asc'}
+            id={id}
+            onClick={handleRequestSort}
+          >
+            {label}
+            {orderBy === id ? (
+              <Styled.VisuallyHidden>
+                {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+              </Styled.VisuallyHidden>
+            ) : null}
+          </TableSortLabel>
+        </TableCell>
+      );
+    });
+
+  if (isEmpty(todoData)) {
+    return (
+      <Styled.NoRecord>
+        <Typography component="div" align="center">
+          <Typography color="textSecondary">No todos to display</Typography>
+          {!isEmpty(searchKeyword) && <Typography color="textSecondary">Search again</Typography>}
+        </Typography>
+      </Styled.NoRecord>
+    )
+  }
   return (
     <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Summary</TableCell>
-            <TableCell align="center">Priority</TableCell>
-            <TableCell align="center">Created On</TableCell>
-            <TableCell align="center">Due By</TableCell>
-            <TableCell align="center">Action</TableCell>
+            {renderHeadCells()}
+            <TableCell align="center">Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>{renderTableData()}</TableBody>
@@ -49,6 +104,7 @@ function TodoTable({ todoData, handldeTodoActions }) {
 TodoTable.propTypes = {
   todoData: PropTypes.array,
   handldeTodoActions: PropTypes.func,
+  searchKeyword: PropTypes.string,
 };
 
 export default TodoTable;

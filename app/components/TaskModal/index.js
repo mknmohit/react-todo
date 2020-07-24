@@ -13,11 +13,12 @@ import {
   Slide,
   TextField,
   Tooltip,
-  IconButton
+  IconButton,
 } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import getTimestamp from 'utils/timestamp';
-import { find } from 'lodash';
+import { find, isEmpty, trim } from 'lodash';
+import Styled from './style';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -44,6 +45,8 @@ function TaskModal({
   viewId,
 }) {
   const [todoData, setTodoData] = useState(initialTodoData);
+  const [titleError, setTitleError] = useState('');
+  const [descriptionError, setDescriptionError] = useState('')
 
   useEffect(() => {
     if (isModalOpen && action !== 'add') {
@@ -55,6 +58,11 @@ function TaskModal({
       setTodoData(result);
     }
   }, [isModalOpen]);
+
+  const handleInputFocus = e => {
+    const { target: { name }} = e
+    return name === 'title' ? setTitleError('') : setDescriptionError('')
+  }
 
   const handleChange = event => {
     const {
@@ -70,25 +78,50 @@ function TaskModal({
     setTodoData(initialTodoData);
   };
 
+  const handleValidation = () => {
+    const { title, description } = todoData
+    const trimedTitle = trim(title)
+    const trimedDescription = trim(description)
+    const isInvalidTitle = trimedTitle.length < 3
+    const isInvalidDescription = trimedDescription.length < 10
+
+    if(isInvalidTitle) {
+      setTitleError('min. 3 characters are required')
+    }
+
+    if(isInvalidDescription) {
+      setDescriptionError('min. 10 characters are required')
+    }
+    return !isInvalidTitle && !isInvalidDescription
+  }
+
   const handleSaveTodo = () => {
-    const data = {
-      ...todoData,
-      isReadOnly: true,
-      createdAt: new Date().getTime(),
-    };
-    onSave(data);
-    setInitialTodoData();
-    handleModalClose();
+    const isValidAllInputs = handleValidation()
+
+    if(isValidAllInputs) {
+      const data = {
+        ...todoData,
+        isReadOnly: true,
+        createdAt: new Date().getTime(),
+      };
+      onSave(data);
+      setInitialTodoData();
+      handleModalClose();
+    }
   };
 
   const handleUpdateTodo = () => {
-    const data = {
-      ...todoData,
-      isReadOnly: true,
-    };
-    onUpdate(data);
-    setInitialTodoData();
-    handleModalClose();
+    const isValidAllInputs = handleValidation()
+
+    if(isValidAllInputs) {
+      const data = {
+        ...todoData,
+        isReadOnly: true,
+      };
+      onUpdate(data);
+      setInitialTodoData();
+      handleModalClose();
+    }
   };
 
   const handleDeleteTodo = () => {
@@ -97,6 +130,8 @@ function TaskModal({
   };
 
   const onCloseModal = () => {
+    setTitleError('');
+    setDescriptionError('');
     setInitialTodoData();
     handleModalClose();
   };
@@ -105,10 +140,8 @@ function TaskModal({
     setTodoData({
       ...todoData,
       isReadOnly: false,
-    })
-  }
-
-  console.log('todoData', todoData);
+    });
+  };
 
   const renderSaveBtn = () => {
     switch (action) {
@@ -144,8 +177,8 @@ function TaskModal({
         );
       }
       case 'view': {
-        const { isReadOnly } = todoData
-        if(!isReadOnly) {
+        const { isReadOnly } = todoData;
+        if (!isReadOnly) {
           return (
             <Button
               variant="contained"
@@ -156,33 +189,37 @@ function TaskModal({
             </Button>
           );
         }
-        return null
+        return null;
+      }
+
+      default: {
+        return null;
       }
     }
   };
 
   const renderConfirmationBtn = () => (
-    <div>
-      <Button onClick={onCloseModal} variant="outlined" color="primary">
+    <Styled.ActionsWrapper>
+      <Styled.CancelBtn onClick={onCloseModal} variant="outlined" color="primary">
         {action === 'delete' ? 'No' : 'Cancel'}
-      </Button>
+      </Styled.CancelBtn>
       {renderSaveBtn()}
-    </div>
+    </Styled.ActionsWrapper>
   );
 
   const renderEditBtn = () => {
-    const { isReadOnly } = todoData
-    if(isReadOnly) {
+    const { isReadOnly } = todoData;
+    if (isReadOnly) {
       return (
         <Tooltip title="Edit">
           <IconButton onClick={handleEdit}>
-            <EditIcon />
+            <EditIcon color="primary"/>
           </IconButton>
         </Tooltip>
-      )
+      );
     }
-    return null
-  }
+    return null;
+  };
 
   const renderDialogTitle = () => {
     switch (action) {
@@ -200,17 +237,15 @@ function TaskModal({
 
       case 'view': {
         return (
-        <div>
-          <span>
-            Task Details
-          </span>
-          {renderEditBtn()}
-        </div>
-        )
+          <Styled.AlignEnd>
+            <span>Task Details</span>
+            {renderEditBtn()}
+          </Styled.AlignEnd>
+        );
       }
 
       default: {
-        return null
+        return null;
       }
     }
   };
@@ -220,21 +255,22 @@ function TaskModal({
       onClose={onCloseModal}
       open={isModalOpen}
       TransitionComponent={Transition}
+      fullWidth
     >
       <DialogTitle>{renderDialogTitle()}</DialogTitle>
       <DialogContent dividers>
-        <TextField
+        <Styled.Field
           label="Summary"
-          variant="outlined"
           name="title"
           value={todoData.title}
+          onFocus={handleInputFocus}
           onChange={handleChange}
           inputProps={{
             maxLength: 140,
-          }}
-          InputProps={{
             readOnly: todoData.isReadOnly,
           }}
+          error={!isEmpty(titleError)}
+          helperText={titleError}
           fullWidth
         />
         <TextField
@@ -242,50 +278,53 @@ function TaskModal({
           variant="outlined"
           name="description"
           value={todoData.description}
+          onFocus={handleInputFocus}
           onChange={handleChange}
           rows={10}
           inputProps={{
             maxLength: 500,
-          }}
-          InputProps={{
             readOnly: todoData.isReadOnly,
           }}
+          error={!isEmpty(descriptionError)}
+          helperText={descriptionError}
           multiline
           fullWidth
         />
-        <TextField
-          label="Due Date"
-          type="date"
-          name="dueDate"
-          defaultValue={getTimestamp(todoData.dueDate)}
-          onChange={handleChange}
-          InputLabelProps={{
-            shrink: true,
-          }}
-          InputProps={{
-            readOnly: todoData.isReadOnly,
-          }}
-        />
-        <FormControl>
-          <InputLabel shrink id="priority-dropdown-label">
-            Priority
-          </InputLabel>
-          <Select
-            labelId="priority-dropdown-label"
-            name="priority"
-            value={todoData.priority}
+        <Styled.Wrapper>
+          <TextField
+            label="Due Date"
+            type="date"
+            name="dueDate"
+            defaultValue={getTimestamp(todoData.dueDate)}
             onChange={handleChange}
-            inputProps={{ readOnly: todoData.isReadOnly }}
-            displayEmpty
-          >
-            <MenuItem value={0}>
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={1}>Low</MenuItem>
-            <MenuItem value={2}>Medium</MenuItem>
-            <MenuItem value={3}>High</MenuItem>
-          </Select>
-        </FormControl>
+            InputLabelProps={{
+              shrink: true,
+            }}
+            InputProps={{
+              readOnly: todoData.isReadOnly,
+            }}
+          />
+          <FormControl>
+            <InputLabel shrink id="priority-dropdown-label">
+              Priority
+            </InputLabel>
+            <Select
+              labelId="priority-dropdown-label"
+              name="priority"
+              value={todoData.priority}
+              onChange={handleChange}
+              inputProps={{ readOnly: todoData.isReadOnly }}
+              displayEmpty
+            >
+              <MenuItem value={0}>
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value={1}>Low</MenuItem>
+              <MenuItem value={2}>Medium</MenuItem>
+              <MenuItem value={3}>High</MenuItem>
+            </Select>
+          </FormControl>
+        </Styled.Wrapper>
       </DialogContent>
       <DialogActions>{renderConfirmationBtn()}</DialogActions>
     </Dialog>
