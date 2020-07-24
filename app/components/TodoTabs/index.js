@@ -4,10 +4,13 @@ import { AppBar, Tabs, Tab } from '@material-ui/core';
 import AllTodo from 'components/AllTodo';
 import PendingTodo from 'components/PendingTodo';
 import CompletedTodo from 'components/CompletedTodo';
+import AllIcon from '@material-ui/icons/ListAlt';
+import PendingIcon from '@material-ui/icons/HourglassEmpty';
+import CompletedIcon from '@material-ui/icons/AssignmentTurnedInOutlined';
 
 // import Styled from './style';
 
-function TodoTabs({ todoData, handldeTodoActions }) {
+function TodoTabs({ todoData, handldeTodoActions, searchKeyword }) {
   const [activeTab, setActiveTab] = useState(0);
 
   const handleTabChange = (event, tabValue) => {
@@ -22,10 +25,12 @@ function TodoTabs({ todoData, handldeTodoActions }) {
           onChange={handleTabChange}
           indicatorColor="primary"
           textColor="primary"
+          variant="fullWidth"
+          centered
         >
-          <Tab label="All" value={0} />
-          <Tab label="Pending" value={1} />
-          <Tab label="Completed" value={2} />
+          <Tab icon={<AllIcon />} label="All" value={0} />
+          <Tab icon={<PendingIcon />} label="Pending" value={1} />
+          <Tab icon={<CompletedIcon />} label="Completed" value={2} />
         </Tabs>
       </AppBar>
       <AllTodo
@@ -33,18 +38,21 @@ function TodoTabs({ todoData, handldeTodoActions }) {
         activeTab={activeTab}
         todoData={todoData}
         handldeTodoActions={handldeTodoActions}
+        searchKeyword={searchKeyword}
       />
       <PendingTodo
         index={1}
         activeTab={activeTab}
         todoData={todoData}
         handldeTodoActions={handldeTodoActions}
+        searchKeyword={searchKeyword}
       />
       <CompletedTodo
         index={2}
         activeTab={activeTab}
         todoData={todoData}
         handldeTodoActions={handldeTodoActions}
+        searchKeyword={searchKeyword}
       />
     </div>
   );
@@ -53,6 +61,7 @@ function TodoTabs({ todoData, handldeTodoActions }) {
 TodoTabs.propTypes = {
   todoData: PropTypes.array,
   handldeTodoActions: PropTypes.func,
+  searchKeyword: PropTypes.string,
 };
 
 export default TodoTabs;
