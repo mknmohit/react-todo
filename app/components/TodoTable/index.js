@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { map } from 'lodash';
+import { map, isEmpty } from 'lodash';
 import {
   Paper,
   Table,
@@ -10,12 +10,13 @@ import {
   TableHead,
   TableRow,
   TableSortLabel,
+  Typography,
 } from '@material-ui/core';
 import RenderTableRow from 'components/RenderTableRow';
 import { stableSort, getComparator } from 'utils/sorting';
 import Styled from './style';
 
-function TodoTable({ todoData, handldeTodoActions }) {
+function TodoTable({ todoData, handldeTodoActions, searchKeyword }) {
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('createdAt');
 
@@ -75,6 +76,16 @@ function TodoTable({ todoData, handldeTodoActions }) {
       );
     });
 
+  if (isEmpty(todoData)) {
+    return (
+      <Styled.NoRecord>
+        <Typography component="div" align="center">
+          <Typography color="textSecondary">No todos to display</Typography>
+          {!isEmpty(searchKeyword) && <Typography color="textSecondary">Search again</Typography>}
+        </Typography>
+      </Styled.NoRecord>
+    )
+  }
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -93,6 +104,7 @@ function TodoTable({ todoData, handldeTodoActions }) {
 TodoTable.propTypes = {
   todoData: PropTypes.array,
   handldeTodoActions: PropTypes.func,
+  searchKeyword: PropTypes.string,
 };
 
 export default TodoTable;
