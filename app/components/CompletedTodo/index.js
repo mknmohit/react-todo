@@ -40,6 +40,7 @@ function CompletedTodo({
       <TodoTable
         todoData={getCompletedTodos()}
         handldeTodoActions={handldeTodoActions}
+        searchKeyword={searchKeyword}
       />
     </div>
   );

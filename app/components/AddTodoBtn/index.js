@@ -8,7 +8,7 @@ import Styled from './style';
 function AddTodoBtn({ handleAddTodo }) {
   return (
     <Styled.Root>
-      <Tooltip title="Create New Todo">
+      <Tooltip title="Create New Todo" placement="left">
         <Fab color="primary" onClick={handleAddTodo}>
           <AddIcon />
         </Fab>
