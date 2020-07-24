@@ -13,5 +13,5 @@ export const PRIORITY = {
   0: 'None',
   1: 'Low',
   2: 'Medium',
-  4: 'High',
+  3: 'High',
 };
