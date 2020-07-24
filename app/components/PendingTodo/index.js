@@ -40,6 +40,7 @@ function PendingTodo({
       <TodoTable
         todoData={getPendigTodos()}
         handldeTodoActions={handldeTodoActions}
+        searchKeyword={searchKeyword}
       />
     </div>
   );
