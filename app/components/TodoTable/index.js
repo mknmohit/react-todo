@@ -51,12 +51,12 @@ function TodoTable({ todoData, handldeTodoActions, searchKeyword }) {
   };
 
   const renderHeadCells = () =>
-    map(headCells, headCell => {
+    map(headCells, (headCell, index) => {
       const { id, label } = headCell;
       return (
         <TableCell
           key={id}
-          align="center"
+          align={index === 0 ? 'left' : 'center'}
           sortDirection={orderBy === id ? order : false}
         >
           <TableSortLabel

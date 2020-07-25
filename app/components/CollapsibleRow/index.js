@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Box,
   Collapse,
   IconButton,
   TableCell,
@@ -11,7 +10,8 @@ import {
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import TodoTable from 'components/TodoTable';
-import { GROUPING, PRIORITY } from 'containers/app/constants';
+import { GROUPING, PRIORITY } from 'containers/App/constants';
+import Styled from './style';
 
 function CollapsibleRow({
   todoData,
@@ -38,25 +38,23 @@ function CollapsibleRow({
 
   return (
     <>
-      <TableRow onClick={toggleCollapsible}>
+      <Styled.Row onClick={toggleCollapsible}>
         <TableCell align="left" size="small">
           <IconButton aria-label="expand row">
             {isExpended ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
           {getHeading()}
         </TableCell>
-      </TableRow>
+      </Styled.Row>
       <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }}>
+        <Styled.Cell>
           <Collapse in={isExpended} timeout="auto" unmountOnExit>
-            <Box margin={1}>
-              <TodoTable
-                todoData={todoData}
-                handldeTodoActions={handldeTodoActions}
-              />
-            </Box>
+            <TodoTable
+              todoData={todoData}
+              handldeTodoActions={handldeTodoActions}
+            />
           </Collapse>
-        </TableCell>
+        </Styled.Cell>
       </TableRow>
     </>
   );
