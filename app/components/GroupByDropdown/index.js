@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
-
-// import Styled from './style';
+import { InputLabel, MenuItem, Select } from '@material-ui/core';
+import Styled from './style';
 
 function GroupByDropdown({ groupByKey, onChnageGroupBy }) {
   const handleChange = e => {
@@ -12,7 +11,7 @@ function GroupByDropdown({ groupByKey, onChnageGroupBy }) {
     onChnageGroupBy(value);
   };
   return (
-    <FormControl>
+    <Styled.Form>
       <InputLabel shrink id="groupby-dropdown-label">
         Group By
       </InputLabel>
@@ -31,7 +30,7 @@ function GroupByDropdown({ groupByKey, onChnageGroupBy }) {
         <MenuItem value="dueDate">Pending On</MenuItem>
         <MenuItem value="priority">Priority</MenuItem>
       </Select>
-    </FormControl>
+    </Styled.Form>
   );
 }
 

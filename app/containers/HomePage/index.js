@@ -7,7 +7,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { isEmpty, map, reject } from 'lodash';
-import { Typography } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 import AddTodoBtn from 'components/AddTodoBtn';
 import TaskModal from 'components/TaskModal';
 import TodoTabs from 'components/TodoTabs';
@@ -117,15 +117,17 @@ export default function HomePage() {
       <Styled.Container>
         <Styled.Wrapper>
           <Typography variant="h5">ToDo App</Typography>
-          <Search
-            searchKeyword={searchKeyword}
-            onSearchChange={handleSearchChange}
-            onClearSearch={onClearSearch}
-          />
-          <GroupByDropdown
-            groupByKey={groupByKey}
-            onChnageGroupBy={handleGroupBy}
-          />
+          <Box display="flex" alignItems="center">
+            <Search
+              searchKeyword={searchKeyword}
+              onSearchChange={handleSearchChange}
+              onClearSearch={onClearSearch}
+            />
+            <GroupByDropdown
+              groupByKey={groupByKey}
+              onChnageGroupBy={handleGroupBy}
+            />
+          </Box>
         </Styled.Wrapper>
         <AddTodoBtn handleAddTodo={handleAddTodo} />
         <TaskModal
