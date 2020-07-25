@@ -25,6 +25,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const initialTodoData = {
+  id: null,
   title: '',
   description: '',
   dueDate: '',
@@ -50,7 +51,7 @@ function TaskModal({
 
   useEffect(() => {
     if (isModalOpen && action !== 'add') {
-      const todoList = find(allTodos, { createdAt: viewId });
+      const todoList = find(allTodos, { id: viewId });
       const result = {
         ...todoList,
         isReadOnly: action !== 'edit',
@@ -104,7 +105,8 @@ function TaskModal({
       const data = {
         ...todoData,
         isReadOnly: true,
-        createdAt: new Date().getTime(),
+        id: new Date().getTime(),
+        createdAt: getTimestamp(),
       };
       onSave(data);
       setInitialTodoData();

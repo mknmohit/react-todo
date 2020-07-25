@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { filter, isEmpty, map } from 'lodash';
+import { filter, groupBy, isEmpty, map } from 'lodash';
 import TodoTable from 'components/TodoTable';
+import GroupedTable from 'components/GroupedTable';
 import searching from 'utils/searching';
 
 // import Styled from './style';
@@ -12,6 +13,7 @@ function AllTodo({
   todoData,
   handldeTodoActions,
   searchKeyword,
+  groupByKey,
 }) {
   const generateTodo = todo => {
     const { currentState } = todo;
@@ -39,13 +41,32 @@ function AllTodo({
     return map(todoData, item => generateTodo(item));
   };
 
-  return (
-    <div role="tabpanel" hidden={index !== activeTab}>
+  const renderTable = () => {
+    const todos = getAlltodos();
+
+    if (!isEmpty(groupByKey) && !isEmpty(todos)) {
+      const groupedTodos = groupBy(todos, groupByKey);
+      return (
+        <GroupedTable
+          groupedTodos={groupedTodos}
+          groupByKey={groupByKey}
+          handldeTodoActions={handldeTodoActions}
+        />
+      );
+    }
+
+    return (
       <TodoTable
-        todoData={getAlltodos()}
+        todoData={todos}
         handldeTodoActions={handldeTodoActions}
         searchKeyword={searchKeyword}
       />
+    );
+  };
+
+  return (
+    <div role="tabpanel" hidden={index !== activeTab}>
+      {renderTable()}
     </div>
   );
 }
@@ -56,6 +77,7 @@ AllTodo.propTypes = {
   todoData: PropTypes.array,
   handldeTodoActions: PropTypes.func,
   searchKeyword: PropTypes.string,
+  groupByKey: PropTypes.string,
 };
 
 export default AllTodo;

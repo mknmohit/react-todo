@@ -8,9 +8,7 @@ import AllIcon from '@material-ui/icons/ListAlt';
 import PendingIcon from '@material-ui/icons/HourglassEmpty';
 import CompletedIcon from '@material-ui/icons/AssignmentTurnedInOutlined';
 
-// import Styled from './style';
-
-function TodoTabs({ todoData, handldeTodoActions, searchKeyword }) {
+function TodoTabs({ todoData, handldeTodoActions, searchKeyword, groupByKey }) {
   const [activeTab, setActiveTab] = useState(0);
 
   const handleTabChange = (event, tabValue) => {
@@ -39,6 +37,7 @@ function TodoTabs({ todoData, handldeTodoActions, searchKeyword }) {
         todoData={todoData}
         handldeTodoActions={handldeTodoActions}
         searchKeyword={searchKeyword}
+        groupByKey={groupByKey}
       />
       <PendingTodo
         index={1}
@@ -46,6 +45,7 @@ function TodoTabs({ todoData, handldeTodoActions, searchKeyword }) {
         todoData={todoData}
         handldeTodoActions={handldeTodoActions}
         searchKeyword={searchKeyword}
+        groupByKey={groupByKey}
       />
       <CompletedTodo
         index={2}
@@ -53,6 +53,7 @@ function TodoTabs({ todoData, handldeTodoActions, searchKeyword }) {
         todoData={todoData}
         handldeTodoActions={handldeTodoActions}
         searchKeyword={searchKeyword}
+        groupByKey={groupByKey}
       />
     </div>
   );
@@ -62,6 +63,7 @@ TodoTabs.propTypes = {
   todoData: PropTypes.array,
   handldeTodoActions: PropTypes.func,
   searchKeyword: PropTypes.string,
+  groupByKey: PropTypes.string,
 };
 
 export default TodoTabs;
