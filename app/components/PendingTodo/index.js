@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isEmpty, filter } from 'lodash';
+import { groupBy, isEmpty, filter } from 'lodash';
 import TodoTable from 'components/TodoTable';
+import GroupedTable from 'components/GroupedTable';
 import searching from 'utils/searching';
-
-// import Styled from './style';
 
 function PendingTodo({
   index,
@@ -12,6 +11,7 @@ function PendingTodo({
   todoData,
   handldeTodoActions,
   searchKeyword,
+  groupByKey,
 }) {
   const generateTodo = todo => {
     const { currentState } = todo;
@@ -35,13 +35,32 @@ function PendingTodo({
     return filter(todoData, item => generateTodo(item));
   };
 
-  return (
-    <div role="tabpanel" hidden={index !== activeTab}>
+  const renderTable = () => {
+    const todos = getPendigTodos();
+
+    if (!isEmpty(groupByKey) && !isEmpty(todos)) {
+      const groupedTodos = groupBy(todos, groupByKey);
+      return (
+        <GroupedTable
+          groupedTodos={groupedTodos}
+          groupByKey={groupByKey}
+          handldeTodoActions={handldeTodoActions}
+        />
+      );
+    }
+
+    return (
       <TodoTable
-        todoData={getPendigTodos()}
+        todoData={todos}
         handldeTodoActions={handldeTodoActions}
         searchKeyword={searchKeyword}
       />
+    );
+  };
+
+  return (
+    <div role="tabpanel" hidden={index !== activeTab}>
+      {renderTable()}
     </div>
   );
 }
@@ -52,6 +71,7 @@ PendingTodo.propTypes = {
   todoData: PropTypes.array,
   handldeTodoActions: PropTypes.func,
   searchKeyword: PropTypes.string,
+  groupByKey: PropTypes.string,
 };
 
 export default PendingTodo;

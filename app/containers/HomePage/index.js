@@ -21,7 +21,7 @@ export default function HomePage() {
   const [viewId, setViewId] = useState();
   const [searchKeyword, setSearchKeyword] = useState('');
   const [todoData, setTodoData] = useState([]);
-  const [groupByKey, setGroupByKey] = useState('createdAt');
+  const [groupByKey, setGroupByKey] = useState('');
   useEffect(() => {
     const todos = JSON.parse(localStorage.getItem('todos'));
     if (!isEmpty(todos)) {
