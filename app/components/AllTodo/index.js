@@ -5,8 +5,6 @@ import TodoTable from 'components/TodoTable';
 import GroupedTable from 'components/GroupedTable';
 import searching from 'utils/searching';
 
-// import Styled from './style';
-
 function AllTodo({
   index,
   activeTab,
