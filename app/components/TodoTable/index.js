@@ -18,12 +18,12 @@ import Styled from './style';
 
 function TodoTable({ todoData, handldeTodoActions, searchKeyword }) {
   const [order, setOrder] = useState('asc');
-  const [orderBy, setOrderBy] = useState('createdAt');
+  const [orderBy, setOrderBy] = useState('id');
 
   const headCells = [
     { id: 'title', label: 'Summary' },
     { id: 'priority', label: 'Priority' },
-    { id: 'createdAt', label: 'Created On' },
+    { id: 'id', label: 'Created On' },
     { id: 'dueDate', label: 'Due By' },
   ];
 
@@ -39,10 +39,10 @@ function TodoTable({ todoData, handldeTodoActions, searchKeyword }) {
   const renderTableData = () => {
     const sortedData = stableSort(todoData, getComparator(order, orderBy));
     return map(sortedData, items => {
-      const { createdAt } = items;
+      const { id } = items;
       return (
         <RenderTableRow
-          key={createdAt}
+          key={id}
           todoList={items}
           handldeTodoActions={handldeTodoActions}
         />
@@ -51,12 +51,12 @@ function TodoTable({ todoData, handldeTodoActions, searchKeyword }) {
   };
 
   const renderHeadCells = () =>
-    map(headCells, headCell => {
+    map(headCells, (headCell, index) => {
       const { id, label } = headCell;
       return (
         <TableCell
           key={id}
-          align="center"
+          align={index === 0 ? 'left' : 'center'}
           sortDirection={orderBy === id ? order : false}
         >
           <TableSortLabel

@@ -3,14 +3,12 @@ import PropTypes from 'prop-types';
 import { IconButton, TableCell, Tooltip } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-
 import { PRIORITY as getPriority } from 'containers/App/constants';
-import getTimestamp from 'utils/timestamp';
-
 import Styled from './style';
 
 function RenderTableRow({ todoList, handldeTodoActions }) {
   const {
+    id,
     title,
     dueDate,
     priority,
@@ -22,7 +20,7 @@ function RenderTableRow({ todoList, handldeTodoActions }) {
   const handleEdit = () => {
     const params = {
       action: 'edit',
-      id: createdAt,
+      id,
     };
     handldeTodoActions(params);
   };
@@ -30,7 +28,7 @@ function RenderTableRow({ todoList, handldeTodoActions }) {
   const handleMarkDone = () => {
     const params = {
       action: 'complete',
-      id: createdAt,
+      id,
     };
     handldeTodoActions(params);
   };
@@ -38,7 +36,7 @@ function RenderTableRow({ todoList, handldeTodoActions }) {
   const handleDelete = () => {
     const params = {
       action: 'delete',
-      id: createdAt,
+      id,
     };
     handldeTodoActions(params);
   };
@@ -46,7 +44,7 @@ function RenderTableRow({ todoList, handldeTodoActions }) {
   const handleUndoComplete = () => {
     const params = {
       action: 'undoComplete',
-      id: createdAt,
+      id,
     };
     handldeTodoActions(params);
   };
@@ -54,7 +52,7 @@ function RenderTableRow({ todoList, handldeTodoActions }) {
   const handleViewTodo = () => {
     const params = {
       action: 'view',
-      id: createdAt,
+      id,
     };
     handldeTodoActions(params);
   };
@@ -116,7 +114,7 @@ function RenderTableRow({ todoList, handldeTodoActions }) {
         align="center"
         onClick={handleViewTodo}
       >
-        {getTimestamp(createdAt)}
+        {createdAt}
       </Styled.Cell>
       <Styled.Cell
         strikeout={isStrikeOutText}

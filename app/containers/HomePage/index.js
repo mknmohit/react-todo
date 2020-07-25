@@ -7,11 +7,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { isEmpty, map, reject } from 'lodash';
-import { Typography } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 import AddTodoBtn from 'components/AddTodoBtn';
 import TaskModal from 'components/TaskModal';
 import TodoTabs from 'components/TodoTabs';
 import Search from 'components/Search';
+import GroupByDropdown from 'components/GroupByDropdown';
 import Styled from './style';
 
 export default function HomePage() {
@@ -20,7 +21,7 @@ export default function HomePage() {
   const [viewId, setViewId] = useState();
   const [searchKeyword, setSearchKeyword] = useState('');
   const [todoData, setTodoData] = useState([]);
-
+  const [groupByKey, setGroupByKey] = useState('');
   useEffect(() => {
     const todos = JSON.parse(localStorage.getItem('todos'));
     if (!isEmpty(todos)) {
@@ -51,8 +52,8 @@ export default function HomePage() {
 
   const handleUpdateTodo = data => {
     const result = map(todoData, item => {
-      const { createdAt } = item;
-      if (createdAt === viewId) {
+      const { id } = item;
+      if (id === viewId) {
         return data;
       }
       return item;
@@ -61,14 +62,14 @@ export default function HomePage() {
   };
 
   const handldeTodoActions = params => {
-    const { action: actionType, id } = params;
+    const { action: actionType, id: elementId } = params;
     setAction(actionType);
-    setViewId(id);
+    setViewId(elementId);
 
     if (actionType === 'complete') {
       const result = map(todoData, item => {
-        const { createdAt } = item;
-        if (createdAt === id) {
+        const { id } = item;
+        if (id === elementId) {
           return {
             ...item,
             currentState: 'completed',
@@ -79,8 +80,8 @@ export default function HomePage() {
       setTodoData(result);
     } else if (actionType === 'undoComplete') {
       const result = map(todoData, item => {
-        const { createdAt } = item;
-        if (createdAt === id) {
+        const { id } = item;
+        if (id === elementId) {
           return {
             ...item,
             currentState: 'pending',
@@ -95,7 +96,7 @@ export default function HomePage() {
   };
 
   const handleDeleteTodo = () => {
-    const result = reject(todoData, { createdAt: viewId });
+    const result = reject(todoData, { id: viewId });
     setTodoData(result);
   };
 
@@ -107,16 +108,26 @@ export default function HomePage() {
     setSearchKeyword('');
   };
 
+  const handleGroupBy = value => {
+    setGroupByKey(value);
+  };
+
   return (
     <Styled.Root>
       <Styled.Container>
         <Styled.Wrapper>
           <Typography variant="h5">ToDo App</Typography>
-          <Search
-            searchKeyword={searchKeyword}
-            onSearchChange={handleSearchChange}
-            onClearSearch={onClearSearch}
-          />
+          <Box display="flex" alignItems="center">
+            <Search
+              searchKeyword={searchKeyword}
+              onSearchChange={handleSearchChange}
+              onClearSearch={onClearSearch}
+            />
+            <GroupByDropdown
+              groupByKey={groupByKey}
+              onChnageGroupBy={handleGroupBy}
+            />
+          </Box>
         </Styled.Wrapper>
         <AddTodoBtn handleAddTodo={handleAddTodo} />
         <TaskModal
@@ -133,6 +144,7 @@ export default function HomePage() {
           todoData={todoData}
           handldeTodoActions={handldeTodoActions}
           searchKeyword={searchKeyword}
+          groupByKey={groupByKey}
         />
       </Styled.Container>
     </Styled.Root>
